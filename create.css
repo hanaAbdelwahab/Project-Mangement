@@ -1,0 +1,527 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Container */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar with Purple Shades */
+.sidebar {
+    width: 250px;
+    background: #f4eefb;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    font-size: 16px;
+    color: #4a148c;
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar li i {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* Sidebar Icon Colors */
+.sidebar li:nth-child(1) i { color: #4a148c; }  /* Import worksheets */
+.sidebar li:nth-child(2) i { color: #673ab7; }  /* AI generation */
+.sidebar li:nth-child(3) i { color: #311b92; }  /* Create from scratch */
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    color: #4a148c;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Active Button (Remove Default Hover Effect) */
+.sidebar li.active {
+    background-color: transparent; /* Remove the permanent hover effect */
+}
+
+/* Hover Effect */
+.sidebar li:hover {
+    background-color: #d1c4e9; /* Light purple when hovered */
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Options Grid */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Option Buttons */
+/* General Button Styles */
+.option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 180px;
+    transition: 0.3s;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #4a148c;  /* Purple border */
+    cursor: pointer;
+}
+
+/* Icon Styling */
+.option i {
+    font-size: 16px;
+}
+
+/* Purple Buttons */
+.option.purple1 {
+    background-color: #e6dbf8;
+    color: #4a148c;
+}
+
+.option.purple i {
+    color: #4a148c;
+}
+
+.option.purple:hover {
+    background-color: #cbb4ec;
+}
+
+/* Apply Purple Style to Open Ended Button */
+.option.white {
+    background-color: #e6dbf8;  /* Change to match the others */
+    color: #4a148c;
+    border: 1px solid #4a148c;
+}
+
+.option.white i {
+    color: #4a148c;
+}
+
+.option.white:hover {
+    background-color: #cbb4ec;
+}
+#quizEditor {
+    display: none; /* Initially hidden */
+}
+/* General Page Styling */
+
+
+/* Container Layout */
+.container {
+    display: flex;
+}
+
+
+/* Content Styling */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* Quiz Type Buttons */
+
+#quizEditor {
+    display: none;
+    background-color: #450b6d; /* Deep purple */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    height: 200px;
+    margin-top: 40px;
+}
+
+.question-box {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h2 {
+    color: #bfa3ff;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* Answer Options Container */
+.answer-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 50px;
+
+}
+
+/* Answer Box Styling */
+.answer {
+    position: relative;
+    flex: 1;
+    min-width: 200px; /* Ensuring consistent size */
+    max-width: 250px; 
+    height: 150px; /* Matching the image size */
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    
+  
+}
+
+/* Hover Effect */
+.answer:hover {
+    transform: scale(1.03);
+}
+
+/* Colors Matching the Image */
+.answer.blue { background-color: #2563eb; }
+.answer.teal { background-color: #14b8a6; }
+.answer.yellow { background-color: #eab308; color: black; }
+.answer.red { background-color: #dc2626; }
+
+/* Icons Inside Answer Box */
+.answer .icon {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Correct Answer Tick */
+.answer .correct-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 16px;
+    color: white;
+}
+
+/* Delete and Image Icons */
+.answer .icon.delete, 
+.answer .icon.image {
+    font-size: 14px;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px;
+    border-radius: 50%;
+}
+
+/* Plus Button for Adding More Answers */
+.add-answer {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 100px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease-in-out;
+    margin-top: -150px;
+}
+
+/* General Button Styles */
+.single-answer, 
+.multiple-answers {
+    background: gray;
+    color: white;
+    margin-top: 50px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effects */
+.single-answer:hover,
+.multiple-answers:hover {
+    background: #511aa0;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Click Effects */
+.single-answer:active,
+.multiple-answers:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.answer {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    background-color: #2176FF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Styling the input field */
+.answer-input {
+    width: 80%;
+    height: 40px;
+    padding: 5px;
+    border: none;
+    background: white;
+    color: black;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+    border-radius: 5px;
+}
+
+/* Placeholder styling */
+.answer-input::placeholder {
+    color: gray;
+}
+
+/* Icons need to be on top of the input field */
+.icon {
+    position: absolute;
+    z-index: 2;
+}
+
+.answer {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    background-color: #2176FF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px; /* Added padding */
+}
+
+/* Styling the input field */
+.answer {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove padding to prevent blocking */
+    cursor: text; /* Make sure users see it's clickable */
+}
+
+.answer input {
+    width: 90%; /* Adjust width so it fits well */
+    height: 80%; /* Make it take up most of the answer box */
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    outline: none;
+    padding: 5px;
+    z-index: 10; /* Ensure it's on top */
+}
+
+.answer input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.answer:hover {
+    filter: brightness(80%); /* Makes the box 20% darker */
+    transition: 0.3s ease-in-out; /* Smooth transition */
+}
+.answer-container {
+    display: flex;
+    align-items: center;
+}
+
+.add-answer {
+   /* Space between last answer and button */
+    background-color: #6A11CB;
+    right: 500px; /* Moves it to the right */
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+ 
+    
+    transition: 0.3s;
+}
+
+.add-answer:hover {
+    background-color: #4C0E91;
+}
+.correct-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 16px; /* Make it smaller */
+    width: 24px;
+    height: 24px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.correct-check.selected {
+    background-color: #28a745; /* Green when selected */
+    border-color: #28a745;
+    color: white;
+}
+.delete {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.delete:hover {
+    color: red;
+}
+
+
+.quiz-toolbar {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: white !important;
+    position: relative !important;
+    z-index: 999;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+
+.back-button {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.question-type {
+    flex-grow: 1;
+}
+
+.question-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.quiz-formatting {
+    display: flex;
+    gap: 8px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.quiz-formatting button {
+    background: none;
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.save-btn {
+    background-color: #511aa0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: 0.3s;
+    margin-left: 500px;
+}
+
+.save-btn:hover {
+    background-color: #3a0d80;
+}
+
+#errorMessage {
+    font-size: 14px;
+    margin-top: 10px;
+}
