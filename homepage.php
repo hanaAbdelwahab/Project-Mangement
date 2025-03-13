@@ -11,6 +11,8 @@
 </head>
 <body>
     <div class="hero-section">
+    <div class="white-overlay"></div> <!-- White Background Behind Text -->
+
         <div class="hero-content">
             <h2>Introducing <span class="highlight">Instructional Suite</span></h2>
             <h1>“Explore a universe of knowledge with QuizzyVerse.”</h1>
@@ -44,6 +46,24 @@
         Here’s how it works
         </p>
     </div>
+  
+
+    <div class="quiz-options">
+        <div class="quiz-box">
+            <img src="images/attend_icon.png" alt="Attend Quiz">
+            <h3>Attend Quiz</h3>
+        </div>
+        <div class="quiz-box">
+            <img src="images/create_icon.png" alt="Create Quiz">
+            <h3>Create Quiz</h3>
+        </div>
+        <div class="quiz-box">
+            <img src="images/explore_icon.png" alt="Explore Quizzes">
+            <h3>Explore Quizzes</h3>
+        </div>
+    </div>
+</div>
+
 </section>
 
 </body>
