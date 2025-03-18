@@ -261,7 +261,7 @@ body {
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    height: 200px;
+    height: 350px;
     margin-top: 40px;
 }
 .question-box {
@@ -681,7 +681,7 @@ color: rgba(255, 255, 255, 0.7); /* Light gray placeholder */
     color: white;
     background-color: #827f8679;
     border: none;
-    border-radius: 1rem;
+    border-radius: 2rem;
 }
 .correct:hover{
     background-color: rgba(128, 128, 128, 0.803);
@@ -704,7 +704,7 @@ color: rgba(255, 255, 255, 0.7); /* Light gray placeholder */
 .blank-button {
     padding: 5px 10px;
     background-color: #008cba;
-    color: white;
+    color:red;
     border: none;
     cursor: pointer;
 }
@@ -718,3 +718,4 @@ color: rgba(255, 255, 255, 0.7); /* Light gray placeholder */
     margin-top: 5px;
     border-radius: 4px;
 }
+

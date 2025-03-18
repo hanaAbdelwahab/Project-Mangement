@@ -356,3 +356,115 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+document.addEventListener("DOMContentLoaded", function () {
+    // Select all check icons
+    const checkIcons = document.querySelectorAll(".correct-check");
+
+    checkIcons.forEach(icon => {
+        icon.addEventListener("click", function () {
+            // Remove 'selected' class from all icons (only one correct answer at a time)
+            checkIcons.forEach(i => i.classList.remove("selected"));
+
+            // Add 'selected' class to the clicked icon
+            this.classList.add("selected");
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    let answerContainer = document.querySelector(".answer-options");
+    let addAnswerBtn = document.getElementById("addAnswerBtn");
+    let singleAnswerMode = true; // Default to single-answer mode
+
+    function toggleCorrectAnswer(button) {
+        if (singleAnswerMode) {
+            // Remove 'selected' from all buttons when single-answer mode is on
+            document.querySelectorAll(".correct-check").forEach(btn => btn.classList.remove("selected"));
+        }
+        button.classList.toggle("selected"); // Toggle selection
+    }
+
+    addAnswerBtn.addEventListener("click", function () {
+        let newAnswer = document.createElement("div");
+        newAnswer.classList.add("answer", "blue");
+
+        let checkButton = document.createElement("button");
+        checkButton.classList.add("correct-check");
+        checkButton.innerHTML = "✔";
+        checkButton.addEventListener("click", function () {
+            toggleCorrectAnswer(checkButton);
+        });
+
+        let inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.classList.add("answer-input");
+        inputField.placeholder = "Type answer option here...";
+
+        let deleteIcon = document.createElement("span");
+        deleteIcon.classList.add("delete");
+        deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteIcon.addEventListener("click", function () {
+            newAnswer.remove();
+        });
+
+        newAnswer.appendChild(checkButton);
+        newAnswer.appendChild(inputField);
+        newAnswer.appendChild(deleteIcon);
+        answerContainer.appendChild(newAnswer);
+    });
+
+    document.querySelector(".single-answer").addEventListener("click", function () {
+        singleAnswerMode = true;
+        document.querySelectorAll(".correct-check").forEach(btn => btn.classList.remove("selected"));
+    });
+
+    document.querySelector(".multiple-answers").addEventListener("click", function () {
+        singleAnswerMode = false;
+    });
+
+    document.getElementById("saveQuiz").addEventListener("click", function () {
+        let questionInput = document.querySelector("#questionInput").innerText.trim();
+        let answerInputs = document.querySelectorAll(".answer-input");
+
+        let correctAnswers = [];
+        let incorrectAnswers = [];
+
+        answerInputs.forEach(input => {
+            let answerText = input.value.trim();
+            let isCorrect = input.previousSibling.classList.contains("selected");
+
+            if (answerText !== "") {
+                if (isCorrect) {
+                    correctAnswers.push(answerText);
+                } else {
+                    incorrectAnswers.push(answerText);
+                }
+            }
+        });
+
+        if (!questionInput || answerInputs.length === 0) {
+            alert("Please enter a question and at least one answer.");
+            return;
+        }
+
+        let answersHTML = '<ul>';
+        correctAnswers.forEach(answer => {
+            answersHTML += `<li><span style="color:green">✓</span> ${answer}</li>`;
+        });
+
+        incorrectAnswers.forEach(answer => {
+            answersHTML += `<li><span style="color:red">✗</span> ${answer}</li>`;
+        });
+
+        answersHTML += '</ul>';
+
+        let questionItem = document.createElement("div");
+        questionItem.classList.add("saved-question");
+        questionItem.innerHTML = `<strong>${questionInput}</strong>${answersHTML}`;
+
+        document.querySelector(".Questions-container").appendChild(questionItem);
+        document.querySelector(".Questions-container").style.display = "block";
+
+        alert("Question saved successfully!");
+    });
+});
+
