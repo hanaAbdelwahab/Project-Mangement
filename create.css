@@ -20,11 +20,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar h2 {
-    font-size: 16px;
-    color: #4a148c;
-    margin-bottom: 15px;
-}
+
 
 .sidebar ul {
     list-style: none;
@@ -65,37 +61,143 @@ body {
     transition: background 0.3s;
 }
 
-/* Active Button (Remove Default Hover Effect) */
-.sidebar li.active {
-    background-color: transparent; /* Remove the permanent hover effect */
-}
 
 /* Hover Effect */
 .sidebar li:hover {
     background-color: #d1c4e9; /* Light purple when hovered */
 }
 
-/* Main Content */
+.sidebar h2 {
+    font-size: 26px;
+    color: #4a148c;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+#quizTitle{
+    font-size: 20px;
+    border: 1px solid ;
+    margin: 1rem;
+    outline: none; /* Remove focus outline */
+    -webkit-user-modify: read-write-plaintext-only; /* Prevent auto-correction in some browsers */
+}
+#back {
+    font-size: 24px; 
+    color:#4a148c;
+    cursor: pointer;
+}
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 370px;
+    height: 270px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.modal-content2 {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 86rem;
+    height: 40rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.modal-content p{
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4a148c;
+}
+/* Close Button */
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+.choices {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 20px; /* Space between buttons */
+    margin-top: 15px; /* Space from text */
+}
+
+.choices button {
+    text-align: left; /* Align text to the left inside buttons */
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    background: #f4eefb;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    width: 80%;
+}
+.choices button:hover {
+    background: #d1c4e9;
+}
+.quiz-formatting {
+    display: flex;
+    gap: 8px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.quiz-formatting button {
+    background: none;
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.save-btn {
+    background-color: #511aa0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: 0.3s;
+    margin-left: 500px;
+}
+
+.save-btn:hover {
+    background-color: #3a0d80;
+}
+
+#errorMessage {
+    font-size: 14px;
+    margin-top: 10px;
+}
 .content {
     flex: 1;
     padding: 20px;
 }
-
-h2 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* Options Grid */
 .options {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
-
-/* Option Buttons */
-/* General Button Styles */
 .option {
     display: flex;
     align-items: center;
@@ -144,13 +246,6 @@ h2 {
 .option.white:hover {
     background-color: #cbb4ec;
 }
-#quizEditor {
-    display: none; /* Initially hidden */
-}
-/* General Page Styling */
-
-
-/* Container Layout */
 .container {
     display: flex;
 }
@@ -161,11 +256,7 @@ h2 {
     flex-grow: 1;
     padding: 20px;
 }
-
-/* Quiz Type Buttons */
-
 #quizEditor {
-    display: none;
     background-color: #450b6d; /* Deep purple */
     padding: 30px;
     border-radius: 12px;
@@ -173,20 +264,11 @@ h2 {
     height: 200px;
     margin-top: 40px;
 }
-
 .question-box {
     background-color: transparent;
     padding: 20px;
     border-radius: 10px;
 }
-
-h2 {
-    color: #bfa3ff;
-    font-size: 22px;
-    font-weight: 600;
-}
-
-/* Answer Options Container */
 .answer-options {
     display: flex;
     gap: 15px;
@@ -524,4 +606,115 @@ h2 {
 #errorMessage {
     font-size: 14px;
     margin-top: 10px;
+}
+
+/* Answer Box Styling */
+.answer-options {
+    display: flex;
+    gap: 10px;
+}
+
+.answer {
+    position: relative;
+    padding: 20px;
+    width: 200px;
+    height: 120px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.blue { background-color: #2176FF; }
+.teal { background-color: #00A896; }
+.yellow { background-color: #F4A261; }
+.red { background-color: #E63946; }
+
+/* Icons */
+.icon {
+    position: absolute;
+    top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.delete { right: 220px; }
+.correct-check { bottom: 20px; left: 200px; font-size: 18px; }
+
+/* Editable Question Input */
+.question-input {
+width: 100%;
+height: 80px; /* Increase height */
+padding: 15px;
+font-size: 22px; /* Make text larger */
+font-weight: normal;
+text-align: center;
+border: none;
+border-radius: 8px;
+outline: none;
+background: transparent;
+color: #cecccc;
+}
+
+.question-input::placeholder {
+color: rgba(255, 255, 255, 0.7); /* Light gray placeholder */
+}
+
+
+.question-input:focus {
+    border-color: #6A11CB;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+}
+.answer-optionsdD{
+    width: 82rem;
+    height: 20rem;
+    border-radius: 2rem;
+    background-color:#600f96;
+}
+.correct{
+    padding: 0.6rem;
+    margin: 1rem;
+    color: white;
+    background-color: #827f8679;
+    border: none;
+    border-radius: 1rem;
+}
+.correct:hover{
+    background-color: rgba(128, 128, 128, 0.803);
+}
+.button-container2{
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    width: 100%;
+}
+.save-btn-D{
+    background-color: #511aa0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+.blank-button {
+    padding: 5px 10px;
+    background-color: #008cba;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.blank-button:hover {
+    background-color: #005f6b;
+}
+.correct-answer {
+    border: 2px solid green;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 4px;
 }

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz UI</title>
+    <link rel="stylesheet" href="create.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styling for the blank button */
+        .blank-btn {
+            background-color:transparent;
+            border: 2px dotted #ccc;
+            border-radius: 1rem;
+            padding: 2px 8px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-block;
+            color: #ccc;
+        }
+        .blank-btn:hover {
+            background-color: #e0e0e0;
+            color: purple;
+        }
+        /* Add a container for text content in the question input */
+        .text-content {
+            display: inline;
+        }
+        .correct-answer {
+            border: 2px solid green;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <i class="fa-solid fa-circle-arrow-left" id="back"></i>
+            <h2>QuizzyVerse</h2>
+            <ul>
+                <li ondblclick="editTitle(this)" contenteditable="true" spellcheck="false" id="quizTitle">Untitled Quiz</li>
+                <li><i class="fas fa-file-import"></i> Publish</li>
+                <li><i class="fa-solid fa-forward"></i> preview</li>
+                <li class="active"><i class="fa-solid fa-gear"></i> Settings</li>
+            </ul>
+        </div>
+        <div class="Questions">
+            <p>0 Question<span> (0 Point)</span></p>
+            <button class="addQ"><i class="fa-solid fa-plus"></i> Add Question</button>
+            <div class="Questions-container">
+                <button>::</button>
+                <button>Multiple Choice</button>
+            </div>
+        </div>
+        <!-- Welcome Modal -->
+        <div id="welcomeModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Which Type Of Question do you want:</p>
+                <div class="choices">
+                    <button id="multipleChoiceBtn"><i class="fa-solid fa-square-check" style="color: purple;"></i> Multiple Choice</button>
+                    <button id="DropBtn"><i class="fa-solid fa-square-caret-down" style="color: purple;"></i> Drop down</button>
+                    <button><i class="fa-solid fa-pen" style="color: purple;"></i> Open Ended</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiple Choice Modal -->
+        <div id="secondModal" class="modal" style="display: none;">
+            <div class="modal-content2">
+                <span class="close second-close">&times;</span>
+
+                <!-- Quiz Formatting Toolbar -->
+                <div class="quiz-formatting">
+                    <button><b>A</b></button>
+                    <button><b>B</b></button>
+                    <button><i>I</i></button>
+                    <button><u>U</u></button>
+                    <button>𝑆̶</button>
+                    <button>x¹</button>
+                    <button>x₁</button>
+                    <button>∑</button>
+                    <button>𝑓(𝑥) Insert Equation</button>
+                </div>
+
+                <!-- Quiz Editor -->
+                <div id="quizEditor">
+                    <div class="question-box">
+                        <div id="questionInput" contenteditable="true" class="question-input">Type your question here...</div>
+                        <div class="answer-options">
+                            <button id="addAnswerBtn" class="add-answer">+</button>
+
+                            <div class="answer blue">
+                                <button class="correct-check">✔</button>
+                                <span class="delete" title="Delete"><i class="fas fa-trash-alt"></i></span>
+                                <input type="text" class="answer-input" placeholder="Type answer option here...">
+                            </div>
+
+                            <div class="answer teal">
+                                <button class="correct-check">✔</button>
+                                <span class="delete" title="Delete"><i class="fas fa-trash-alt"></i></span>
+                                <input type="text" class="answer-input" placeholder="Type answer option here...">
+                            </div>
+
+                            <div class="answer yellow">
+                                <button class="correct-check">✔</button>
+                                <span class="delete" title="Delete"><i class="fas fa-trash-alt"></i></span>
+                                <input type="text" class="answer-input" placeholder="Type answer option here...">
+                            </div>
+
+                            <div class="answer red">
+                                <button class="correct-check">✔</button>
+                                <span class="delete" title="Delete"><i class="fas fa-trash-alt"></i></span>
+                                <input type="text" class="answer-input" placeholder="Type answer option here...">
+                            </div>
+                        </div>
+
+                        <!-- Quiz Options -->
+                        <div class="button-container">
+                            <button class="quiz-btn single-answer">Single Correct Answer</button>
+                            <button class="quiz-btn multiple-answers">Multiple Correct Answers</button>
+                            <button id="saveQuiz" class="save-btn">Save Quiz</button>
+                            <p id="errorMessage" style="color: red; display: none;">Please fill in the question and the answers!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="DropModal" class="modal" style="display: none;">
+            <div class="modal-content2">
+                <span class="close Drop-close">&times;</span>
+                
+                <!-- Quiz Formatting -->
+                <div class="quiz-formatting">
+                    <button><b>A</b></button>
+                    <button><b>B</b></button>
+                    <button><i>I</i></button>
+                    <button><u>U</u></button>
+                    <button>𝑆̶</button>
+                    <button>x¹</button>
+                    <button>x₁</button>
+                    <button>∑</button>
+                    <button>𝑓(𝑥) Insert Equation</button>
+                </div>
+                <!-- Quiz Editor -->
+                <div id="quizEditor">
+                    <div class="question-box">
+                        <div id="dropQuestionInput" contenteditable="true" class="question-input">Type your question here...</div>
+                    </div>
+        
+                    <!-- Answer Options -->
+                    <div class="answer-optionsdD">
+                        <!-- Buttons to add correct or incorrect answers -->
+                        <button id="correct" class="correct"><i class="fa-solid fa-plus"></i> Add Correct Answer</button>
+                        <button id="incorrect" class="correct"><i class="fa-solid fa-plus"></i> Add Incorrect Answer</button>
+                        <div id="correctAnswerContainer"></div> <!-- Container for correct answers -->
+                    </div>
+        
+                    <!-- Quiz Options -->
+                    <div class="button-container2">
+                        <button id="saveQuiz" class="save-btn-D">Save Quiz</button>
+                        <p id="errorMessage" style="color: red; display: none;">Please fill in the question and the answers!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="create.js"></script>
+    <script>
+    // Script to add "Blank" button when typing in the dropQuestionInput
+// Script to add "Blank" button when typing in the dropQuestionInput
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the save button for dropdown questions
+    const saveDropQuizBtn = document.querySelector(".save-btn-D");
+
+    // Add event listener for the dropdown save button
+    if (saveDropQuizBtn) {
+        saveDropQuizBtn.addEventListener("click", function() {
+            // Get question content - make sure we're accessing the actual HTML content
+            const dropQuestionElement = document.getElementById("dropQuestionInput");
+            
+            // Check if the element exists
+            if (!dropQuestionElement) {
+                console.error("Question input element not found");
+                return;
+            }
+            
+            // Get the innerHTML directly
+            let dropQuestion = dropQuestionElement.innerHTML;
+            console.log("Original question content:", dropQuestion); // Debug
+            
+            // Skip processing if question is empty or default text
+            if (!dropQuestion || dropQuestion === "Type your question here...") {
+                const dropErrorMessage = document.querySelector("#DropModal #errorMessage");
+                if (dropErrorMessage) dropErrorMessage.style.display = "block";
+                return;
+            }
+            
+            // Remove any blank buttons from the question content before saving
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = dropQuestion;
+            const blankButtons = tempDiv.querySelectorAll('.blank-btn');
+            blankButtons.forEach(btn => {
+                btn.remove();
+            });
+            dropQuestion = tempDiv.innerHTML;
+            console.log("Processed question content:", dropQuestion); // Debug
+            
+            const correctAnswers = document.querySelectorAll(".correct-answer");
+            const incorrectAnswers = document.querySelectorAll(".incorrect-answer");
+            const dropErrorMessage = document.querySelector("#DropModal #errorMessage");
+            
+            // Check if at least one answer exists
+            if (correctAnswers.length === 0 && incorrectAnswers.length === 0) {
+                if (dropErrorMessage) dropErrorMessage.style.display = "block";
+                return;
+            }
+            
+            // Hide error message if everything is filled
+            if (dropErrorMessage) dropErrorMessage.style.display = "none";
+            
+            // Create the question item to add to the container
+            const questionItem = document.createElement("div");
+            questionItem.classList.add("saved-question");
+            
+            // Build the HTML for the question
+            let answersHTML = '<ul>';
+            
+            // Add correct answers with a check mark
+            correctAnswers.forEach(answer => {
+                answersHTML += `<li><span style="color:green">✓</span> ${answer.textContent}</li>`;
+            });
+            
+            // Add incorrect answers with an X mark
+            incorrectAnswers.forEach(answer => {
+                answersHTML += `<li><span style="color:red">✗</span> ${answer.textContent}</li>`;
+            });
+            
+            answersHTML += '</ul>';
+            
+            // Set the complete HTML without any blank buttons
+            questionItem.innerHTML = `<strong>${dropQuestion}</strong>${answersHTML}`;
+            
+            // Add the question to the container
+            const questionsContainer = document.querySelector(".Questions-container");
+            if (questionsContainer) {
+                questionsContainer.appendChild(questionItem);
+                questionsContainer.style.display = "block";
+            } else {
+                console.error("Questions container not found");
+            }
+            
+            // Reset the input fields
+            if (dropQuestionElement) {
+                dropQuestionElement.innerHTML = "Type your question here...";
+            }
+            
+            const answerOptionsdD = document.querySelector(".answer-optionsdD");
+            if (answerOptionsdD) {
+                Array.from(answerOptionsdD.querySelectorAll(".correct-answer, .incorrect-answer")).forEach(el => el.remove());
+            }
+            
+            // Close the modal
+            const dropModal = document.getElementById("DropModal");
+            if (dropModal) {
+                dropModal.style.display = "none";
+            }
+            
+            // Update the question count
+            updateQuestionCount();
+            
+            // Show success message
+            alert("Question saved successfully!");
+        });
+    }
+
+    // Function to update the question count
+    function updateQuestionCount() {
+        const questionCount = document.querySelectorAll(".saved-question").length;
+        const questionCountElement = document.querySelector(".Questions p");
+        if (questionCountElement) {
+            questionCountElement.innerHTML = `${questionCount} Question${questionCount !== 1 ? 's' : ''}<span> (${questionCount} Point${questionCount !== 1 ? 's' : ''})</span>`;
+        }
+    }
+});
+    </script>
+</body>
+</html>
