@@ -170,3 +170,18 @@ body, html {
     margin: 8px 0;
     font-size: 14px;
 }
+.back-arrow a{
+    color: #ddd;
+}
+.back-arrow {
+    font-size: 30px; /* Adjust size */
+    color: #ffffff; /* Set color */
+    cursor: pointer; /* Make it clickable */
+    translate: 3rem 3rem;
+    transition: color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  .back-arrow a:hover {
+    color: #bbbbbb; /* Change color on hover */
+  }
+  
