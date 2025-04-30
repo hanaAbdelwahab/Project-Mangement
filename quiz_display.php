@@ -7,65 +7,87 @@
     <link rel="stylesheet" href="display.css">
 </head>
 <body>
-<button class="back-button" onclick="window.history.back();">⬅ Back</button>
 
-    <div class="quiz-container">
-        <h2>Saved Quiz Questions</h2>
-        <div id="quizDisplay"></div>
-    </div>
+  
+  <div id="quizDisplay" class="quiz-container"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let quizData = JSON.parse(localStorage.getItem("savedQuizzes")) || [];
+  <script>
+   function saveQuestion() {
+    const questionInput = document.getElementById("questionInput");
+    const answerInputs = document.querySelectorAll(".answer-text");
+    const correctChecks = document.querySelectorAll(".answer-correct");
 
-            let quizDisplay = document.getElementById("quizDisplay");
+    const question = questionInput.value.trim();
+    const answers = [];
 
-            if (quizData.length === 0) {
-                quizDisplay.innerHTML = "<p>No quizzes saved yet.</p>";
-                return;
-            }
+    for (let i = 0; i < answerInputs.length; i++) {
+        const text = answerInputs[i].value.trim();
+        const correct = correctChecks[i].checked;
 
-            quizData.forEach((quiz, index) => {
-                let questionHTML = `<div class='question'><b>Q${index + 1}: ${quiz.question}</b></div><ul>`;
+        if (text) {
+            answers.push({ text: text, correct: correct });
+        }
+    }
 
-                quiz.answers.forEach(answer => {
-                    let answerClass = answer.correct ? "answer-item correct" : "answer-item";
-                    questionHTML += `<li class="${answerClass}">${answer.text}</li>`;
-                });
+    if (!question || answers.length === 0) {
+        alert("Please enter a valid question and at least one answer.");
+        return;
+    }
 
-                questionHTML += "</ul><hr>";
-                quizDisplay.innerHTML += questionHTML;
+    let quizzes = JSON.parse(localStorage.getItem("savedQuizzes")) || [];
+
+    // 🚫 Check for duplicates
+    const isDuplicate = quizzes.some(q => q.question.toLowerCase() === question.toLowerCase());
+    if (isDuplicate) {
+        alert("This question already exists.");
+        return;
+    }
+
+    // ✅ Save new question
+    quizzes.push({ question: question, answers: answers });
+    localStorage.setItem("savedQuizzes", JSON.stringify(quizzes));
+
+    questionInput.value = "";
+    answerInputs.forEach(input => input.value = "");
+    correctChecks.forEach(check => check.checked = false);
+
+    displaySavedQuestions();
+}
+
+
+    function displaySavedQuestions() {
+        const quizData = JSON.parse(localStorage.getItem("savedQuizzes")) || [];
+        const quizDisplay = document.getElementById("quizDisplay");
+        quizDisplay.innerHTML = "";
+
+        quizData.forEach((quiz, index) => {
+            let questionHTML = `
+                <div class="question-box">
+                    <div class="question-meta">
+                        <input type="checkbox">
+                        <button class="question-type">${index + 1}. Multiple Choice</button>
+                        <select><option>30 seconds</option></select>
+                        <select><option>1 point</option></select>
+                    </div>
+                    <div class="question-text"><strong>${quiz.question}</strong></div>
+                    <div class="answer-label">Answer choices</div>
+                    <div class="answer-grid">
+            `;
+
+            quiz.answers.forEach(ans => {
+                const icon = ans.correct ? "✅" : "❌";
+                questionHTML += `<div class="answer-item">${icon} ${ans.text}</div>`;  // ✅ .text works now
             });
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-    let quizData = JSON.parse(localStorage.getItem("savedQuizzes")) || [];
 
-    if (quizData.length > 0) {
-        let quizContainer = document.querySelector(".quiz-container");
-        quizContainer.innerHTML = ""; // Clear existing content
-
-        quizData.forEach((quizItem, index) => {
-            let questionElement = document.createElement("div");
-            questionElement.classList.add("question");
-            questionElement.textContent = `${index + 1}. ${quizItem.question}`;
-
-            let answersContainer = document.createElement("ul");
-            answersContainer.classList.add("answers");
-
-            quizItem.answers.forEach(answer => {
-                let answerItem = document.createElement("li");
-                answerItem.classList.add("answer-item");
-                answerItem.innerHTML = `<i class="fas fa-circle"></i> ${answer}`;
-                answersContainer.appendChild(answerItem);
-            });
-
-            // Append question and answers to quiz container
-            quizContainer.appendChild(questionElement);
-            quizContainer.appendChild(answersContainer);
+            questionHTML += `</div><hr></div>`;
+            quizDisplay.innerHTML += questionHTML;
         });
     }
-});
 
-    </script>
+    document.addEventListener("DOMContentLoaded", displaySavedQuestions);
+</script>
+
+
+
 </body>
 </html>
