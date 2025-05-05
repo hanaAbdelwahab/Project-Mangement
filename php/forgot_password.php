@@ -24,7 +24,7 @@
                     <input type="email" name="email" placeholder="Email" required>
                     <button type="submit">Submit</button>
                 </form>
-                <a href="../html/login.html">Back to Login</a>
+                <a href="../php/loginform.php">Back to Login</a>
             </div>
         </div>
     </div>

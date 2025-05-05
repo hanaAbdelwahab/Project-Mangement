@@ -564,6 +564,7 @@ font-size: 3rem;
     height: 50px;
     border-radius: 25px;
     background: #000;
+    transition: transform 0.15s ease;
   }
   .pupil::after {
     position: absolute;
@@ -761,5 +762,6 @@ font-size: 3rem;
   .owl:hover .head {
     top: 5px;
   }
+
 
 

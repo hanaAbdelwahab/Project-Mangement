@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Attend Quiz</title>
     <style>
-        /* Background Styling */
         body {
             background-color: #4A0072;
             background-image: url('Screenshot 2025-03-13 024825.png'); /* Replace with your image */
@@ -28,7 +27,6 @@
 
         }
 
-        /* Navbar */
         .navbar {
             position: absolute;
             top: 0;
@@ -146,8 +144,8 @@
 <div class="navbar">
     <div class="logo">QuizzyVerse</div>
     <div class="nav-buttons">
-    <button onclick="window.location.href='../html/Dashboard.html'">My Dashboard</button>
-<button onclick="window.location.href='homepage.php'">Home</button>
+    <button onclick="window.location.href='../php/Dashboard.php'">My Dashboard</button>
+<button onclick="window.location.href='../php/home.php'">Home</button>
 
 
     </div>
@@ -158,7 +156,7 @@
     <h1>QuizzyVerse</h1>
     <div class="form-box">
         <input type="text" placeholder="Enter a join code">
-        <button>Join</button>
+        <button onclick="window.location.href='../php/attend.php'">Join</button>
     </div>
 </div>
 

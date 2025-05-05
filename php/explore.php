@@ -258,7 +258,7 @@ $totalPages = ceil(count($quizzes) / $itemsPerPage);
         </div>
         <div class="button-container">
     <button class="create-quiz"onclick="window.location.href='../html/create.html'">Create Quiz</button>
-    <button class="attend-quiz" onclick="window.location.href='../html/attendQuiz.html'">Attend Quiz</button>
+    <button class="attend-quiz" onclick="window.location.href='../php/attendQuiz.php'">Attend Quiz</button>
     </div>
 
 

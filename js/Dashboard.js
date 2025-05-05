@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Mock Quiz History Data
+    // --- Mock Quiz History Data ---
     const historyData = [
         { date: "March 1, 2025", score: "85%" },
         { date: "March 5, 2025", score: "90%" },
@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 historyList.appendChild(li);
             });
         }
-        historyList.classList.toggle("hidden"); // Toggle visibility properly
+        historyList.classList.toggle("hidden"); // Toggle visibility
     });
 
-    // Overview Performance Chart
+    // --- Overview Performance Chart ---
     const overviewButton = document.querySelector(".view-overview");
     const performanceChart = document.getElementById("performanceChart");
 
@@ -42,4 +42,5 @@ document.addEventListener("DOMContentLoaded", function () {
             performanceChart.dataset.chartInitialized = "true";
         }
     });
+
 });

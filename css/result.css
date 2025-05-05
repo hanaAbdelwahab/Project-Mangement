@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #663399; /* Purple background */
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(209, 191, 209, 0.599);
+    color: white;
+    padding: 10px 20px;
+}
+
+.navbar .back-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.navbar .title {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.navbar .spacer {
+    width: 24px; /* To align center title */
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.result-container {
+    margin: 50px auto;
+    padding: 30px;
+    max-width: 500px;
+    background: rgba(209, 191, 209, 0.3);
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: float 3s ease-in-out infinite; /* 👈 Add this line */
+}
+
+
+.result-container h2 {
+    margin: 0;
+    color: #ffff;
+}
+.avatar {
+    width: 450px;
+    height: 500px;
+    margin: 0 auto;
+    display: none; /* still hidden by default */
+    object-fit: cover; /* optional: maintain aspect ratio */
+}
+
+.sad-gif {
+    max-width: 420px;
+    max-height: 500px;
+    margin: 0 auto;
+    display: none; /* Hidden by default */
+}
+
+.animate-avatar {
+    animation: jump 1s steps(13) infinite;
+}
+
+@keyframes jump {
+    from {
+        background-position-x: 0;
+    }
+    to {
+        background-position-x: -100%;
+    }
+}
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Behind all other content */
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    
+}
+.fog {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    
+}

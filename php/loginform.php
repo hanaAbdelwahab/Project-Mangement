@@ -6,20 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Quizzes</title>
     <link rel="stylesheet" href="../css/login.css">
-    <script>
-        // Function to check the username and password before form submission
-        function checkCredentials(event) {
-            var username = document.querySelector('input[name="username"]').value;
-            var password = document.querySelector('input[name="password"]').value;
-
-            // Check if the username is 'hana' and the password is '123'
-            if (username === 'hana' && password === '123') {
-                // Redirect to 'create.html' if the credentials match
-                window.location.href = '../html/Dashboard.html';
-                event.preventDefault(); // Prevent form submission
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="back-arrow"><a href="../php/home.php"><i class="fa-solid fa-circle-left"></i></a></div>
@@ -43,6 +29,13 @@
             <div class="login-form">
                 <h3>USER LOGIN</h3>
                 <form action="../php/login.php" method="POST" onsubmit="checkCredentials(event)">
+                <?php
+                    session_start();
+                    if (isset($_SESSION['error'])) {
+                    echo "<p style='color: red; text-align:center; margin-top:10px'>" . $_SESSION['error'] . "</p>";
+                    unset($_SESSION['error']); // Clear the message after displaying it
+                }
+                ?>
                     <input type="text" name="username" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <div class="options">

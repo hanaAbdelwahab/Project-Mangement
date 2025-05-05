@@ -203,7 +203,7 @@
                     <h2>Start adapting your curriculum in minutes.</h2>
                     <p>The best way to create, adapt, and deliver resources differentiated for every student.</p>
                     <div class="cta-buttons">
-                        <a href="#" class="cta-btn teachers">Sign up for free</a>
+                        <a href="../php/loginform.php" class="cta-btn teachers">Sign up for free</a>
                         <a href="#" class="cta-btn admins">Learn more</a>
                     </div>
                 </div>
