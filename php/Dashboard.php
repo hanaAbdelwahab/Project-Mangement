@@ -1,10 +1,21 @@
 <?php
 session_start();
+
+// Check if user requested logout
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: ../php/home.php"); // Redirect to home page
+    exit();
+}
+
+// Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: ../html/login.html"); // Redirect to login if not logged in
+    header("Location: ../php/loginform.php"); // Redirect to login if not logged in
     exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +46,7 @@ if (!isset($_SESSION['username'])) {
             justify-content: center;
             cursor: pointer;
             border: 2px solid #fff;
-            color: #5765d6;
+            color: purple;
             font-size: 18px;
         }
         
@@ -97,7 +108,7 @@ if (!isset($_SESSION['username'])) {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #5765d6;
+            background-color: purple;
             color: white;
             display: flex;
             align-items: center;
@@ -141,9 +152,9 @@ if (!isset($_SESSION['username'])) {
     </div>
     <div class="button-container">
         <?php if ($_SESSION['role'] !== 'student'): ?>
-          <button class="create-quiz" onclick="window.location.href='../html/create.html'">Create Quiz</button>
+          <button class="create-quiz" onclick="window.location.href='../php/create.php'">Create Quiz</button>
         <?php endif; ?>
-        <button class="attend-quiz" onclick="window.location.href='../html/attendQuiz.html'">Attend Quiz</button>
+        <button class="attend-quiz" onclick="window.location.href='../php/attendQuiz.php'">Attend Quiz</button>
         
         <!-- Profile Icon with Dropdown -->
         <div class="profile-dropdown">
@@ -161,7 +172,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
                 <a href="../php/profile.php"><i class="fas fa-user-circle"></i> View Profile</a>
-                <a href="../php/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="?logout=true"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
     </div>
