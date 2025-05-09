@@ -6,49 +6,6 @@
     <title>Quiz UI</title>
     <link rel="stylesheet" href="../css/create.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Additional styling for the blank button */
-        .blank-btn {
-            background-color:transparent;
-            border: 2px dotted #ccc;
-            border-radius: 1rem;
-            padding: 2px 8px;
-            margin-left: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: inline-block;
-            color: #ccc;
-        }
-        .blank-btn:hover {
-            background-color: #e0e0e0;
-            color: purple;
-        }
-        /* Add a container for text content in the question input */
-        .text-content {
-            display: inline;
-        }
-        .correct-answer {
-            border: 2px solid green;
-            padding: 5px;
-            margin-top: 5px;
-            border-radius: 4px;
-        }
-        .Questions p{
-            color: purple;
-            font-weight: 900;
-            margin: 1rem;
-        }
-        .addQ{
-    color: white;
-    background-color: #6b1f9e;
-    padding: 0.5rem;
-    margin: 1rem;
-    border-radius: 1rem;
-    border: none;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-    </style>
 </head>
 <body>
     <div class="container">
@@ -66,9 +23,7 @@
         <div class="Questions">
             <p>0 Question<span> (0 Point)</span></p>
             <button class="addQ"><i class="fa-solid fa-plus"></i> Add Question</button>
-            <div class="Questions-container">
-                
-            </div>
+            <div id="quizDisplay" class="quiz-container"></div>
         </div>
         <!-- Welcome Modal -->
         <div id="welcomeModal" class="modal">
@@ -183,123 +138,6 @@
             </div>
         </div>
     <script src="../js/create.js"></script>
-    <script>
-    // Script to add "Blank" button when typing in the dropQuestionInput
-// Script to add "Blank" button when typing in the dropQuestionInput
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the save button for dropdown questions
-    const saveDropQuizBtn = document.querySelector(".save-btn-D");
-
-    // Add event listener for the dropdown save button
-    if (saveDropQuizBtn) {
-        saveDropQuizBtn.addEventListener("click", function() {
-            // Get question content - make sure we're accessing the actual HTML content
-            const dropQuestionElement = document.getElementById("dropQuestionInput");
-            
-            // Check if the element exists
-            if (!dropQuestionElement) {
-                console.error("Question input element not found");
-                return;
-            }
-            
-            // Get the innerHTML directly
-            let dropQuestion = dropQuestionElement.innerHTML;
-            console.log("Original question content:", dropQuestion); // Debug
-            
-            // Skip processing if question is empty or default text
-            if (!dropQuestion || dropQuestion === "Type your question here...") {
-                const dropErrorMessage = document.querySelector("#DropModal #errorMessage");
-                if (dropErrorMessage) dropErrorMessage.style.display = "block";
-                return;
-            }
-            
-            // Remove any blank buttons from the question content before saving
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = dropQuestion;
-            const blankButtons = tempDiv.querySelectorAll('.blank-btn');
-            blankButtons.forEach(btn => {
-                btn.remove();
-            });
-            dropQuestion = tempDiv.innerHTML;
-            console.log("Processed question content:", dropQuestion); // Debug
-            
-            const correctAnswers = document.querySelectorAll(".correct-answer");
-            const incorrectAnswers = document.querySelectorAll(".incorrect-answer");
-            const dropErrorMessage = document.querySelector("#DropModal #errorMessage");
-            
-            // Check if at least one answer exists
-            if (correctAnswers.length === 0 && incorrectAnswers.length === 0) {
-                if (dropErrorMessage) dropErrorMessage.style.display = "block";
-                return;
-            }
-            
-            // Hide error message if everything is filled
-            if (dropErrorMessage) dropErrorMessage.style.display = "none";
-            
-            // Create the question item to add to the container
-            const questionItem = document.createElement("div");
-            questionItem.classList.add("saved-question");
-            
-            // Build the HTML for the question
-            let answersHTML = '<ul>';
-            
-            // Add correct answers with a check mark
-            correctAnswers.forEach(answer => {
-                answersHTML += `<li><span style="color:green">✓</span> ${answer.textContent}</li>`;
-            });
-            
-            // Add incorrect answers with an X mark
-            incorrectAnswers.forEach(answer => {
-                answersHTML += `<li><span style="color:red">✗</span> ${answer.textContent}</li>`;
-            });
-            
-            answersHTML += '</ul>';
-            
-            // Set the complete HTML without any blank buttons
-            questionItem.innerHTML = `<strong>${dropQuestion}</strong>${answersHTML}`;
-            
-            // Add the question to the container
-            const questionsContainer = document.querySelector(".Questions-container");
-            if (questionsContainer) {
-                questionsContainer.appendChild(questionItem);
-                questionsContainer.style.display = "block";
-            } else {
-                console.error("Questions container not found");
-            }
-            
-            // Reset the input fields
-            if (dropQuestionElement) {
-                dropQuestionElement.innerHTML = "Type your question here...";
-            }
-            
-            const answerOptionsdD = document.querySelector(".answer-optionsdD");
-            if (answerOptionsdD) {
-                Array.from(answerOptionsdD.querySelectorAll(".correct-answer, .incorrect-answer")).forEach(el => el.remove());
-            }
-            
-            // Close the modal
-            const dropModal = document.getElementById("DropModal");
-            if (dropModal) {
-                dropModal.style.display = "none";
-            }
-            
-            // Update the question count
-            updateQuestionCount();
-            
-            // Show success message
-            alert("Question saved successfully!");
-        });
-    }
-
-    // Function to update the question count
-    function updateQuestionCount() {
-        const questionCount = document.querySelectorAll(".saved-question").length;
-        const questionCountElement = document.querySelector(".Questions p");
-        if (questionCountElement) {
-            questionCountElement.innerHTML = `${questionCount} Question${questionCount !== 1 ? 's' : ''}<span> (${questionCount} Point${questionCount !== 1 ? 's' : ''})</span>`;
-        }
-    }
-});
-    </script>
+    <script src="../js/display.js"></script>
 </body>
 </html>
