@@ -1,0 +1,765 @@
+/* General Styles */
+body {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5FA;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Montserrat", sans-serif;
+
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #662D91;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #662D91;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Adjust spacing between buttons */
+}
+
+.create-quiz{
+    background-color: transparent;
+    color: #4D1A75;
+} 
+.attend-quiz {
+    background-color: white;
+    color: purple;
+    border: 2px solid purple;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    font-family: "Montserrat", sans-serif;
+    margin-right: 8px;
+}
+
+
+.create-quiz:hover {
+    background-color: #7E57C2;
+    color: white;
+}
+.attend-quiz:hover {
+    background-color: #4D1A75;
+    color: white;
+}
+
+/* Dashboard */
+.dashboard {
+    width: 80%;
+    margin: 50px auto;
+    font-family: "Montserrat", sans-serif;
+
+}
+
+/* Welcome Box */
+.welcome-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+
+}
+.profile-image {
+    width: 100%; /* Make the div take full width */
+    height: 100%; /* Make the div take full height */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.profile-image img {
+    width: 100%; /* Stretch to fit full width */
+    height: 100%; /* Stretch to fit full height */
+    object-fit: contain; /* Ensures the image fits without being cut off */
+    max-width: 500px; /* Optional: Adjust to control the max size */
+}
+
+
+
+
+/* Dashboard Sections */
+/* Ensure the container stretches full width */
+.dashboard-sections {
+    display: flex;
+    flex-direction: column; /* Stack items in a column */
+    width: 100%; /* Full width */
+    gap: 15px; /* Space between boxes */
+}
+
+/* Style each box to look like rows */
+.box {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevents content from overflowing */
+}
+.chart-container {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+.button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+/* Optional: Style for a more structured look */
+.box img {
+    width: 80px; /* Adjust image size */
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.box-content {
+    flex-grow: 1; /* Allows text content to take available space */
+}
+
+.box-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icons/toggle */
+}
+
+
+
+
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Hidden Elements */
+.hidden {
+    display: none;
+}
+
+
+
+
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5FA;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #662D91;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #662D91;
+}
+
+.create-quiz {
+    background-color: #662D91;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.create-quiz:hover {
+    background-color: #4D1A75;
+}
+
+/* Dashboard */
+.dashboard {
+    width: 80%;
+    margin: 50px auto;
+    
+}
+
+/* Welcome Box */
+.welcome-box {
+    background: rgba(149, 195, 235, 0.18); /* Semi-transparent purple */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative; /* Needed for absolute positioning */
+    overflow: visible; /* Ensure image is not cut */
+    height: 200px;
+}
+
+
+.welcome-box h2 {
+margin-right: 700px;
+color: #4D1A75;
+font-weight: 800;
+font-size: 3rem;
+}
+.welcome-box p {
+    margin-right: 700px;
+    font-size: large;
+    }
+
+    .profile-image {
+        position: absolute;
+        top: 50%; /* Adjust as needed */
+        right: -50px; /* Move it further outside the box */
+        transform: translateY(-50%);
+        z-index: 10; /* Ensure it's on top */
+    }
+    
+    .profile-image img {
+        width: 250px; /* Adjust size */
+        height: auto;
+        margin-right: -870px;
+    }
+
+/* Dashboard Sections */
+.dashboard-sections {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.dashboard-sections h3 {
+   color: #525050;
+}
+
+.overview-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    animation: fadeIn 1s ease-out;
+}
+
+/* The main box */
+#overview {
+    text-align: center;
+}
+
+/* Flexbox container for the 3 statistic boxes */
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Styling for each stat box */
+.stat-box {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%; /* Ensure all boxes are equal width */
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    opacity: 0; /* Start with hidden state */
+    transform: translateY(20px); /* Initial position off-screen */
+    animation: slideIn 1s forwards; /* Animation for sliding in */
+}
+
+/* Add color to each box */
+#box1 {
+    background-color: #4CAF50; /* Green */
+    color: #fff;
+}
+
+#box2 {
+    background-color: #FFC107; /* Yellow */
+    color: #333;
+}
+
+#box3 {
+    background-color: #2196F3; /* Blue */
+    color: #fff;
+}
+
+/* Change background color on hover */
+.stat-box:hover {
+    background-color: #f2f2f2;
+}
+
+/* Button styling */
+.view-overview {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-overview:hover {
+    background-color: #555;
+}
+
+/* Hidden canvas initially */
+#performanceChart.hidden {
+    display: none;
+}
+
+/* Keyframes for the animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Off-screen at the start */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Final position */
+    }
+}
+
+/* Add animation delay to each box */
+#box1 {
+    animation-delay: 0s;
+}
+
+#box2 {
+    animation-delay: 0.2s; /* Slight delay for the second box */
+}
+
+#box3 {
+    animation-delay: 0.4s; /* Slight delay for the third box */
+}
+
+/* Number animation (for showing stats incrementally) */
+@keyframes numberAnimation {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.stat-box p {
+    font-size: 2em;
+    font-weight: bold;
+    animation: numberAnimation 2s ease forwards; /* Animate numbers */
+}
+
+/* History Box - Yellow */
+/* Container for the history section */
+#history {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    animation: fadeIn 1s ease-out;
+    text-align: center;
+}
+
+/* History items (li) styling */
+#history-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Each history item container */
+.history-item {
+    display: flex;
+    justify-content: space-between; /* Space between each item */
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0;
+    transform: translateY(20px); /* Off-screen initially */
+    animation: slideIn 1s forwards;
+    transition: opacity 0.3s ease;
+}
+
+.history-item:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.history-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.history-item:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Profile picture circle */
+.profile-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.profile-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* History info container */
+.history-info {
+    display: flex;
+    flex-direction: row;
+    flex: 1; /* Allow the history-info to take up available space */
+}
+
+/* Styling for each piece of history info */
+.history-info p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+/* Styling for username */
+.username {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styling for quiz name */
+.quiz-name {
+    color: #555;
+}
+
+/* Styling for score */
+.score {
+    color: #4CAF50;
+}
+
+/* Button styling for "View Quiz" */
+.view-quiz {
+    padding: 8px 15px;
+    background-color: #2196F3; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-quiz:hover {
+    background-color: #0b7dda;
+}
+
+/* Button styling for "View History" */
+.view-history {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-history:hover {
+    background-color: #555;
+}
+
+/* Hidden list initially */
+.hidden {
+    display: none;
+}
+
+/* Animation for sliding in items */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.owl {
+    position: relative;
+    margin: 40px auto 0;
+    width: 300px;
+    translate: 4rem -8rem;
+  }
+  .pupil {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: #000;
+  }
+  .pupil::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: #fff;
+    content: '';
+  }
+  .eye {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 90px;
+    height: 90px;
+    border-radius: 45px;
+    background: #fff; 
+  }
+  .eye:nth-child(2){
+    left:98px;
+  }
+  .eyes {
+    position: absolute;
+    top: 10px;
+    left: -20px;
+    width: 110px;
+    height: 110px;
+    border-radius: 55px;
+    background: #FF2DF1;
+  }
+  .eyes::before {
+    position: absolute;
+    left: 88px;
+    display: block;
+    width: 110px;
+    height: 110px;
+    border-radius: 55px;
+    background: #FF2DF1;
+    content: '';
+  }
+  .beak {
+    position: absolute;
+    translate: 2rem 5rem;
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 60px solid #41044587; 
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+    content: ''; 
+  }
+  .head {
+    position: absolute;
+    width: 160px;
+    height: 80px;
+    border-radius: 80px / 40px;
+    background: #A5158C;
+  }
+  .head::before {
+    position: absolute;
+    top: 0px;
+    left: 15px;
+    display: block;
+    width: 0;
+    height: 0; 
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #A5158C; 
+    border-left: 15px solid transparent;
+    content: ''; 
+    -webkit-transform: rotate(-15deg);
+  }
+  .head::after {
+    position: absolute;
+    top: 0;
+    right: 18px;
+    z-index:-1;
+    display: block;
+    width: 0;
+    height: 0; 
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #A5158C; 
+    border-left: 15px solid transparent;
+    content: ''; 
+    -webkit-transform: rotate(15deg);
+  }
+  .body {
+    position: absolute;
+    top: 100px;
+    width: 160px;
+    height: 100px;
+    border-radius: 80px / 50px;
+    background: #da26ce;
+  }
+  .wing {
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 50px;
+    height: 100px;
+    border-radius: 50px 0;
+    background: #A5158C;
+    -webkit-transform-origin: 30px 10px;
+    -webkit-transform: rotate(-20deg);
+    transition: all 0.5s ease;
+  }
+  
+  .wing:nth-child(2){
+    left: 130px;
+    border-radius: 0 50px;
+     -webkit-transform-origin: 20px 10px;
+    -webkit-transform: rotate(20deg);
+  }
+  .feet {
+    position: absolute;
+    bottom: -5px;
+    left: 50px;
+    width: 6px;
+    height: 18px;
+    border-radius: 3px / 9px;
+    background: #41044587;
+    -webkit-transform: rotate(10deg);
+  }
+  .feet::before {
+    position: absolute;
+    bottom: 0;
+    left: -6px;
+    display: block;
+    width: 6px;
+    height: 18px;
+    border-radius: 3px / 9px;
+    background: #41044587;
+    content: '';
+  }
+  .feet::after {
+    position: absolute;
+    bottom: 0;
+    left: 6px;
+    display: block;
+    width: 6px;
+    height: 18px;
+    border-radius: 3px / 9px;
+    background: #41044587;
+    content: '';
+  }
+  .feet.right{
+    left: 104px;
+    -webkit-transform: rotate(-10deg);
+  }
+  .feather {
+    position: absolute;
+    top: 65px;
+    left: 72px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #A5158C; 
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent; 
+  }
+  .feather::before {
+    position: absolute;
+    top: -30px;
+    left: -20px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #A5158C; 
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+    content: ''; 
+    -webkit-transform: rotate(5deg);
+  }
+  .feather::after {
+    position: absolute;
+    top: -30px;
+    left: 7px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #A5158C; 
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+    content: ''; 
+    -webkit-transform: rotate(-5deg);
+  }
+  
+  .owl:hover .wing {
+    -webkit-transform: rotate(90deg);
+  }
+  .owl:hover .wing:nth-child(2) {
+    -webkit-transform: rotate(-90deg);
+  }
+  .owl:hover .head {
+    top: 5px;
+  }
+
+
