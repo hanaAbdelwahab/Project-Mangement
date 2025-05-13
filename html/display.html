@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Display Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1rem;
+    }
+    .question {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+    }
+    .question strong {
+      color: purple;
+    }
+  </style>
+</head>
+<body>
+  <h1>Saved Quiz Questions</h1>
+  <div id="quizList"></div>
+
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const question = localStorage.getItem("latestOpenEndedQuestion");
+    const sampleAnswer = localStorage.getItem("latestSampleAnswer");
+
+    if (question) {
+        const container = document.createElement("div");
+        container.innerHTML = `<h3>${question}</h3>`;
+        if (sampleAnswer) {
+            container.innerHTML += `<p><strong>Sample Answer:</strong> ${sampleAnswer}</p>`;
+        }
+        document.body.appendChild(container);
+    }
+});
+</script>
+</body>
+</html>

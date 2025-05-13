@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Event Listeners - Navigation
     backButton.addEventListener("click", function () {
-        window.location.href = "home.html";
+        window.location.href = "../html/Dashboard.html";
     });
     
     // Event Listeners - Title Editing
