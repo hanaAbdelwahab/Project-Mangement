@@ -6,6 +6,69 @@
     <title>Quiz UI</title>
     <link rel="stylesheet" href="../css/create.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styling for the blank button */
+        .blank-btn {
+            background-color:transparent;
+            border: 2px dotted #ccc;
+            border-radius: 1rem;
+            padding: 2px 8px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-block;
+            color: #ccc;
+        }
+        .blank-btn:hover {
+            background-color: #e0e0e0;
+            color: purple;
+        }
+        /* Add a container for text content in the question input */
+        .text-content {
+            display: inline;
+        }
+        .correct-answer {
+            border: 2px solid green;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+        .Questions p{
+            color: purple;
+            font-weight: 900;
+            margin: 1rem;
+        }
+        .addQ{
+    color: white;
+    background-color: #6b1f9e;
+    padding: 0.5rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+.question-input[contenteditable]:empty:before {
+    content: attr(data-placeholder);
+    color:rgb(202, 202, 202);
+    pointer-events: none;
+    display: block;
+}
+.blank-btn {
+    background-color: transparent;
+    border: 2px dotted #ccc;
+    border-radius: 2rem;
+    padding: 4px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #666;
+    font-size: 1rem;
+}
+.blank-btn:hover {
+    background-color: #f0f0f0;
+    color: purple;
+}
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,15 +78,17 @@
             <h2>QuizzyVerse</h2>
             <ul>
                 <li ondblclick="editTitle(this)" contenteditable="true" spellcheck="false" id="quizTitle">Untitled Quiz</li>
-                <li><i class="fas fa-file-import"></i> Publish</li>
-                <li><i class="fa-solid fa-forward"></i> preview</li>
+                <li id="publishbtn"><i class="fas fa-file-import"></i> Publish</li>
+                <li id="previewBtn"><i class="fa-solid fa-forward"></i> Preview</li>
                 <li class="active"><i class="fa-solid fa-gear"></i> Settings</li>
             </ul>
         </div>
         <div class="Questions">
             <p>0 Question<span> (0 Point)</span></p>
             <button class="addQ"><i class="fa-solid fa-plus"></i> Add Question</button>
-            <div id="quizDisplay" class="quiz-container"></div>
+            <div class="Questions-container">
+                
+            </div>
         </div>
         <!-- Welcome Modal -->
         <div id="welcomeModal" class="modal">
@@ -59,7 +124,7 @@
                 <!-- Quiz Editor -->
                 <div id="quizEditor">
                     <div class="question-box">
-                        <div id="questionInput" contenteditable="true" class="question-input">Type your question here...</div>
+                    <div id="questionInput" contenteditable="true" class="question-input" data-placeholder="Type your question here"></div>
                         <div class="answer-options">
                             <button id="addAnswerBtn" class="add-answer">+</button>
 
@@ -118,9 +183,9 @@
                 <!-- Quiz Editor -->
                 <div id="quizEditor">
                     <div class="question-box">
-                        <div id="dropQuestionInput" contenteditable="true" class="question-input">Type your question here...</div>
-                    </div>
-        
+                <div id="dropQuestionInput" contenteditable="true" class="question-input" data-placeholder="Type your question here"></div>
+               </div>
+
                     <!-- Answer Options -->
                     <div class="answer-optionsdD">
                         <!-- Buttons to add correct or incorrect answers -->
@@ -137,7 +202,61 @@
                 </div>
             </div>
         </div>
+
+        <!-- Preview Modal -->
+        <!-- PREVIEW MODAL -->
+<div id="previewModal" class="modal" style="display: none;">
+   <div class="modal-content2">
+      <span class="close preview-close">&times;</span>
+      <h2>Quiz Preview</h2>
+      <div id="previewContent"></div>
+   </div>
+</div>
+
+<!-- PUBLISH MODAL -->
+<!-- Example structure for publishModal -->
+<div id="publishModal" class="modal" style="display:none;">
+  <div class="modal-content" style="
+    width: 300px;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  ">
+    
+    <h3 style="margin-bottom: 1rem; color:green;">Your Quiz Code!</h3>
+    
+    <div id="codeBox" data-code="--------" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      background: #f4f4f4;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    ">
+      <span class="code-text">--------</span>
+      <i class="fa-solid fa-copy"></i>
+    </div>
+    
+    <button id="goToDashboardBtn" style="
+      padding: 0.5rem 1rem;
+      background-color: #6b1f9e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+    ">Go to Dashboard</button>
+  </div>
+</div>
+</div>
+
     <script src="../js/create.js"></script>
-    <script src="../js/display.js"></script>
 </body>
 </html>

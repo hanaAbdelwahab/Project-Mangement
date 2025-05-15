@@ -1,48 +1,311 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     // DOM Elements - Main UI
-    let quizTitle = document.getElementById("quizTitle");
-    let backButton = document.getElementById("back");
-    let questionContainer = document.querySelector(".Questions-container");
-    let addQuestionButton = document.querySelector(".addQ");
-    
-    // DOM Elements - Modals
-    let modal = document.getElementById("welcomeModal");
-    let closeModal = modal.querySelector(".close");
-    let secondModal = document.getElementById("secondModal");
-    let secondClose = secondModal.querySelector(".second-close");
-    let DropModal = document.getElementById("DropModal");
-    let DropClose = DropModal.querySelector(".Drop-close");
-    
-    // DOM Elements - Buttons
-    let multipleChoiceBtn = document.getElementById("multipleChoiceBtn");
-    let DropBtn = document.getElementById("DropBtn");
-    let addAnswerBtn = document.getElementById("addAnswerBtn");
-    let answerContainer = document.querySelector(".answer-options");
-    
-    // DOM Elements - Question Inputs
-    let questionInputDiv = document.querySelector("#secondModal #questionInput"); // Multiple Choice Modal
-    let dropQuestionInput = document.getElementById("dropQuestionInput"); // DropModal
-    let answerOptionsdD = document.querySelector(".answer-optionsdD");
-    let addCorrectBtn = document.getElementById("correct");
-    let addIncorrectBtn = document.getElementById("incorrect");
-    
-    // DOM Elements - Error Messages
+    const quizTitle = document.getElementById("quizTitle");
+    const backButton = document.getElementById("back");
+    const questionContainer = document.querySelector(".Questions-container");
+    const addQuestionButton = document.querySelector(".addQ");
+    const publishBtn = document.getElementById("publishbtn");
+    const publishModal = document.getElementById("publishModal");
+    const publishClose = document.querySelector(".publish-close");
+    const codeBox = document.getElementById("codeBox");
+    const goToDashboardBtn = document.getElementById("goToDashboardBtn");
+    // Modals
+    const modals = {
+        welcome: document.getElementById("welcomeModal"),
+        second: document.getElementById("secondModal"),
+        drop: document.getElementById("DropModal")
+    };
+    const closes = {
+        welcome: modals.welcome.querySelector(".close"),
+        second: modals.second.querySelector(".second-close"),
+        drop: modals.drop.querySelector(".Drop-close")
+    };
+    // Buttons
+    const buttons = {
+        multipleChoice: document.getElementById("multipleChoiceBtn"),
+        drop: document.getElementById("DropBtn"),
+        addAnswer: document.getElementById("addAnswerBtn"),
+        addCorrect: document.getElementById("correct"),
+        addIncorrect: document.getElementById("incorrect"),
+        saveQuiz: document.getElementById("saveQuiz"),
+        saveDropQuiz: document.querySelector(".save-btn-D"),
+        insertBlank: document.getElementById("insertBlankBtn")
+    };
+    // Containers
+    const answerContainer = document.querySelector(".answer-options");
+    const answerOptionsdD = document.querySelector(".answer-optionsdD");
+    const questionInputField = document.querySelector("#secondModal #questionInput") || document.querySelector(".question-input");
+    const dropQuestionInput = document.getElementById("dropQuestionInput");
+    // Error messages
     let errorMessage = document.getElementById("errorMessage");
-    
-    // State variables
-    let singleAnswerMode = true;
-    
+    if (!errorMessage) {
+        errorMessage = document.createElement("p");
+        errorMessage.id = "errorMessage";
+        errorMessage.style.color = "red";
+        errorMessage.style.display = "none";
+        if (document.querySelector(".button-container")) {
+            document.querySelector(".button-container").appendChild(errorMessage);
+        }
+    }
+    // Global variables
+    window.singleAnswerMode = true;
     // Initial Setup
     questionContainer.style.display = "none";
-    modal.style.display = "flex"; // Show the first modal on load
+    modals.welcome.style.display = "flex";
+if (publishBtn) {
+    publishBtn.addEventListener("click", () => {
+        const code = Math.floor(10000000 + Math.random() * 90000000).toString();
+        const codeTextSpan = document.querySelector("#codeBox .code-text");
+
+        if (publishModal && codeBox && codeTextSpan) {
+            codeTextSpan.textContent = code;
+            codeBox.dataset.code = code;
+            publishModal.style.display = "flex";
+        }
+    });
+}
+
+
+if (publishClose) {
+    publishClose.addEventListener("click", () => {
+        publishModal.style.display = "none";
+    });
+}
+
+if (codeBox) {
+    codeBox.addEventListener("click", () => {
+        const codeTextSpan = codeBox.querySelector(".code-text");
+        const code = codeTextSpan.textContent;
+
+        navigator.clipboard.writeText(code).then(() => {
+            codeBox.style.backgroundColor = "#d4edda";
+            codeBox.style.color = "green";
+            codeTextSpan.textContent = "Copied!";
+            setTimeout(() => {
+                const originalCode = codeBox.dataset.code || "--------";
+                codeTextSpan.textContent = originalCode;
+                codeBox.style.backgroundColor = "#f4f4f4";
+                codeBox.style.color = "black";
+            }, 1500);
+        });
+    });
+}
+
+
+if (goToDashboardBtn) {
+    goToDashboardBtn.addEventListener("click", () => {
+        window.location.href = "../php/Dashboard.php";
+    });
+}
+function renderPreview() {
+    const previewContent = document.getElementById("previewContent");
+    const questions = document.querySelectorAll(".saved-question");
     
+    if (questions.length === 0) {
+        previewContent.innerHTML = "<p style='text-align:center;color:gray;'>No questions added yet.</p>";
+        return;
+    }
+
+    let currentIndex = 0;
+    const colorClasses = ["blue", "teal", "yellow", "red"];
+    const colorMap = {
+        blue: "#2176FF",
+        teal: "#00A896",
+        yellow: "#F4A261",
+        red: "#E63946"
+    };
+
+    // Function to render a single question
+function renderQuestion(index) {
+    previewContent.innerHTML = ""; // Clear current content
+
+    const question = questions[index];
+    const questionBox = document.createElement("div");
+    questionBox.style.border = "1px solid #ccc";
+    questionBox.style.borderRadius = "10px";
+    questionBox.style.padding = "5rem";
+    questionBox.style.backgroundColor = "#4A0072";
+    questionBox.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.05)";
+    questionBox.style.minHeight = "300px";
+    questionBox.style.display = "flex";
+    questionBox.style.flexDirection = "column";
+    questionBox.style.alignItems = "center";
+    questionBox.style.textAlign = "center";
+
+    // Question Title (centered and on a single line)
+    const titleEl = question.querySelector("strong");
+    const questionTitle = document.createElement("div");
+if (titleEl) {
+    const rawText = titleEl.textContent.split(": ").slice(1).join(": ");
+    questionTitle.textContent = rawText.trim();
+} else {
+    questionTitle.textContent = `Question ${index + 1}`;
+}
+
+questionTitle.style.backgroundColor = "#3333338b";
+questionTitle.style.padding = "1rem";
+questionTitle.style.fontSize = "1.5rem";
+questionTitle.style.fontWeight = "700";
+questionTitle.style.color = "white";
+questionTitle.style.width = "100%";
+questionTitle.style.textAlign = "center";
+questionTitle.style.borderRadius = "8px";
+questionTitle.style.marginBottom = "1rem";
+    questionBox.appendChild(questionTitle);
+
+    // Answers (in a horizontal row)
+   // === Check Question Type ===
+const typeEl = Array.from(question.querySelectorAll("div")).find(div => 
+    div.textContent?.trim() === "Drop Down" || div.textContent?.trim() === "Multiple Choice"
+);
+const questionType = typeEl ? typeEl.textContent.trim() : "Multiple Choice";
+
+
+
+// === Render Answers ===
+if (questionType === "Drop Down") {
+    const dropdown = document.createElement("select");
+    dropdown.style.padding = "0.6rem 1rem";
+    dropdown.style.fontSize = "1rem";
+    dropdown.style.borderRadius = "8px";
+    dropdown.style.border = "1px solid #ccc";
+    dropdown.style.minWidth = "200px";
+    dropdown.style.marginTop = "1rem";
+
+    const answerList = question.querySelectorAll("ul > li");
+    answerList.forEach((li, i) => {
+        const answerText = li.textContent.replace(/^✓ |^✗ /, "").trim();
+        const option = document.createElement("option");
+        option.value = answerText;
+        option.textContent = answerText;
+        dropdown.appendChild(option);
+    });
+
+    questionBox.appendChild(dropdown);
+} else {
+    // Default rendering as row of answer divs
+    const answerListWrapper = document.createElement("div");
+    answerListWrapper.style.display = "flex";
+    answerListWrapper.style.flexWrap = "wrap";
+    answerListWrapper.style.justifyContent = "center";
+    answerListWrapper.style.gap = "1rem";
+
+    const answerList = question.querySelectorAll("ul > li");
+    answerList.forEach((li, i) => {
+        const answerText = li.textContent.replace(/^✓\s+|^✗\s+/, "").trim();
+        const answerDiv = document.createElement("div");
+        answerDiv.className = "answer";
+
+        const colorClasses = ["blue", "teal", "yellow", "red"];
+        const colorMap = {
+            blue: "#2176FF",
+            teal: "#00A896",
+            yellow: "#F4A261",
+            red: "#E63946"
+        };
+        const colorClass = colorClasses[i % colorClasses.length];
+        const bgColor = colorMap[colorClass];
+
+        answerDiv.textContent = answerText;
+        answerDiv.style.padding = "0.6rem 1rem";
+        answerDiv.style.borderRadius = "8px";
+        answerDiv.style.fontSize = "0.95rem";
+        answerDiv.style.backgroundColor = bgColor;
+        answerDiv.style.color = "white";
+        answerDiv.style.fontWeight = "500";
+        answerDiv.style.width = "fit-content";
+        answerDiv.style.minWidth = "200px";
+        answerDiv.style.textAlign = "center";
+
+        answerListWrapper.appendChild(answerDiv);
+    });
+
+    questionBox.appendChild(answerListWrapper);
+}
+
+    previewContent.appendChild(questionBox);
+    renderNavigationButtons(index, questions.length);
+}
+
+
+
+    // Add Next/Back buttons
+    function renderNavigationButtons(current, total) {
+        const navWrapper = document.createElement("div");
+        navWrapper.style.display = "flex";
+        navWrapper.style.justifyContent = "space-between";
+        navWrapper.style.marginTop = "1.5rem";
+
+        const backBtn = document.createElement("button");
+        backBtn.innerHTML = "← Back";
+        backBtn.disabled = current === 0;
+        backBtn.style.padding = "0.5rem 1.2rem";
+        backBtn.style.borderRadius = "10px";
+        backBtn.style.border = "none";
+        backBtn.style.backgroundColor = "#ddd";
+        backBtn.style.cursor = current === 0 ? "not-allowed" : "pointer";
+
+        const nextBtn = document.createElement("button");
+        nextBtn.innerHTML = "Next →";
+        nextBtn.disabled = current === total - 1;
+        nextBtn.style.padding = "0.5rem 1.2rem";
+        nextBtn.style.borderRadius = "10px";
+        nextBtn.style.border = "none";
+        nextBtn.style.backgroundColor = "#6b1f9e";
+        nextBtn.style.color = "white";
+        nextBtn.style.cursor = current === total - 1 ? "not-allowed" : "pointer";
+
+        // Actions
+        backBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion(currentIndex);
+            }
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < total - 1) {
+                currentIndex++;
+                renderQuestion(currentIndex);
+            }
+        });
+
+        navWrapper.appendChild(backBtn);
+        navWrapper.appendChild(nextBtn);
+        previewContent.appendChild(navWrapper);
+    }
+
+    // Start with first question
+    renderQuestion(currentIndex);
+}
+    const previewBtn = document.getElementById("previewBtn");
+const previewModal = document.getElementById("previewModal");
+const previewClose = document.querySelector(".preview-close");
+
+    if (previewBtn && previewModal && previewClose) {
+    previewBtn.addEventListener("click", () => {
+        renderPreview();
+        previewModal.style.display = "flex";
+    });
+
+    previewClose.addEventListener("click", () => {
+        previewModal.style.display = "none";
+    });
+
+    // Optional: Click outside to close
+    window.addEventListener("click", (e) => {
+        if (e.target === previewModal) {
+            previewModal.style.display = "none";
+        }
+    });
+    }
     // Helper Functions
     function getActualTextContent(element) {
         const clone = element.cloneNode(true);
         clone.querySelectorAll('button').forEach(button => button.remove());
         return clone.textContent.trim();
     }
-    
     function placeCursorAtEnd(element) {
         const range = document.createRange();
         const selection = window.getSelection();
@@ -51,53 +314,1101 @@ document.addEventListener("DOMContentLoaded", function () {
         selection.removeAllRanges();
         selection.addRange(range);
     }
-    
     function saveTitle() {
-        let newTitle = quizTitle.innerText.trim();
-        quizTitle.innerText = newTitle === "" ? "Untitled Quiz" : newTitle;
-    }
-    
+    const newTitle = quizTitle.innerText.trim();
+    quizTitle.innerText = newTitle || "Untitled Quiz";
+    localStorage.setItem("quizTitle", quizTitle.innerText); // ✅ Save to localStorage
+}
+
     function toggleCorrectAnswer(button) {
-        if (singleAnswerMode) {
-            document.querySelectorAll(".correct-check").forEach(btn => btn.classList.remove("selected"));
+        if (window.singleAnswerMode) {
+            // Deselect all others before selecting this one
+            document.querySelectorAll(".correct-check").forEach(btn => {
+                btn.classList.remove("selected");
+                btn.style.backgroundColor = "";
+                btn.style.color = "";
+            });
+            // Select this button
+            button.classList.add("selected");
+            button.style.backgroundColor = "green";
+            button.style.color = "white";
+        } else {
+            // Toggle this button only (allow multiple selections)
+            const isSelected = button.classList.toggle("selected");
+            if (isSelected) {
+                button.style.backgroundColor = "green";
+                button.style.color = "white";
+            } else {
+                button.style.backgroundColor = "";
+                button.style.color = "";
+            }
         }
-        button.classList.toggle("selected");
     }
+    function insertTextAtCursor(container) {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
     
-    // Dropdown Question Functions
+        const range = sel.getRangeAt(0);
+        range.deleteContents();
+    
+        const blankBtn = document.createElement("button");
+        blankBtn.className = "blank-btn";
+        blankBtn.textContent = "Blank";
+    
+        range.insertNode(blankBtn);
+    
+        // Move the caret after the inserted node
+        range.setStartAfter(blankBtn);
+        range.setEndAfter(blankBtn);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    
+        container.focus();
+    }
     function createAnswerField(isCorrect) {
-        const newInput = document.createElement('input');
-        newInput.type = 'text';
-        newInput.placeholder = isCorrect ? 'Type your correct answer here...' : 'Type your incorrect answer here...';
-        newInput.className = isCorrect ? 'correct-answer-input' : 'incorrect-answer-input';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = isCorrect ? 'Correct answer...' : 'Incorrect answer...';
+    input.style.backgroundColor = 'white';
+    input.style.border = 'none';
+    input.style.padding = '0.5rem';
+    input.style.marginTop = '0.5rem';
+    input.style.borderRadius = '5px';
+    input.style.width = '50%';
+    input.style.fontSize = '1rem';
+    input.style.outline = 'none';
+    input.style.height = "1rem";
+    
+    const container = document.querySelector('.answer-optionsdD');
 
-        answerOptionsdD.appendChild(newInput);
-        newInput.focus();
+    // 🆕 Ensure answer list container exists
+    let answerList = container.querySelector('.answer-list');
+    if (!answerList) {
+        answerList = document.createElement('div');
+        answerList.className = 'answer-list';
+        answerList.style.marginTop = '1rem';
+        answerList.style.display = 'flex';
+        answerList.style.flexWrap = 'wrap';
+        answerList.style.gap = '0.5rem';
+        container.appendChild(answerList);
+    }
 
-        newInput.addEventListener('blur', function () {
-            if (newInput.value.trim() !== '') {
+    // Insert input just after the last button
+    const buttons = container.querySelectorAll('button');
+    const lastButton = buttons[buttons.length - 1];
+    container.insertBefore(input, lastButton.nextSibling);
+
+    input.focus();
+
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const val = input.value.trim();
+            if (val !== '') {
                 const answerDiv = document.createElement('div');
                 answerDiv.className = isCorrect ? 'correct-answer' : 'incorrect-answer';
-                answerDiv.textContent = newInput.value.trim();
-                answerDiv.style.border = isCorrect ? '3px solid green' : '3px solid red';
-                answerDiv.style.padding = '0.2rem';
-                answerDiv.style.margin = '0.5rem';
+                answerDiv.textContent = val;
+                answerDiv.style.color = isCorrect ? 'green' : 'red';
+                answerDiv.style.border = `2px solid ${isCorrect ? 'green' : 'red'}`;
+                answerDiv.style.padding = '0.3rem 0.6rem';
+                answerDiv.style.margin = '0.5rem 0';
                 answerDiv.style.borderRadius = '5px';
-                answerDiv.style.display = 'inline-block';
                 answerDiv.style.backgroundColor = 'white';
+                answerDiv.style.height = "1rem";
+                answerDiv.style.display = 'inline-block';
 
-                answerOptionsdD.replaceChild(answerDiv, newInput);
-            } else {
-                newInput.remove();
+                answerList.appendChild(answerDiv); // ✅ Append here
+                input.remove();
             }
+        }
+    });
+
+    input.addEventListener('blur', function () {
+        if (input.value.trim() === '') {
+            input.remove();
+        }
+    });
+    }
+    function saveQuestion(question, answers) {
+    const count = document.querySelectorAll(".saved-question").length + 1;
+
+    const questionItem = document.createElement("div");
+    questionItem.classList.add("saved-question");
+    questionItem.style.backgroundColor = "#f2f2f2";
+    questionItem.style.border = "1px solid #ccc";
+    questionItem.style.padding = "1rem";
+    questionItem.style.marginBottom = "1rem";
+    questionItem.style.borderRadius = "10px";
+    questionItem.style.width = "50rem";
+    questionItem.style.margin = "1rem 2rem";
+
+    // === Metadata Container (Type, Mark, Time) ===
+    const metaRow = document.createElement("div");
+    metaRow.style.display = "flex";
+    metaRow.style.justifyContent = "space-between";
+    metaRow.style.marginBottom = "0.5rem";
+
+    // Question Type
+    // Shared styles for all metadata boxes
+const metaBoxStyle = {
+    backgroundColor: "white",
+    border: "2px solid gray",
+    borderRadius: "2rem",
+    padding: "0.3rem 1rem",
+    color: "purple",
+    fontWeight: "bold",
+    fontSize: "0.9rem"
+};
+
+// Question Type
+const typeDiv = document.createElement("div");
+typeDiv.textContent = "Multiple Choice";
+Object.assign(typeDiv.style, metaBoxStyle);
+
+// Mark Div
+// Mark Dropdown
+const markWrapper = document.createElement("div");
+Object.assign(markWrapper.style, metaBoxStyle);
+const markLabel = document.createElement("span");
+markLabel.textContent = "Mark: ";
+const markSelect = document.createElement("select");
+["1 point", "2 points", "3 points"].forEach(optText => {
+    const option = document.createElement("option");
+    option.textContent = optText;
+    markSelect.appendChild(option);
+});
+markSelect.style.border = "none";
+markSelect.style.background = "transparent";
+markSelect.style.color = "purple";
+markSelect.style.fontWeight = "bold";
+markSelect.style.marginLeft = "0.5rem";
+markWrapper.appendChild(markLabel);
+markWrapper.appendChild(markSelect);
+
+// Time Div
+const timeWrapper = document.createElement("div");
+Object.assign(timeWrapper.style, metaBoxStyle);
+const timeLabel = document.createElement("span");
+timeLabel.textContent = "Time: ";
+const timeSelect = document.createElement("select");
+["30 sec", "1 min", "1.5 min", "2 mins"].forEach(optText => {
+    const option = document.createElement("option");
+    option.textContent = optText;
+    timeSelect.appendChild(option);
+});
+timeSelect.style.border = "none";
+timeSelect.style.background = "transparent";
+timeSelect.style.color = "purple";
+timeSelect.style.fontWeight = "bold";
+timeSelect.style.marginLeft = "0.5rem";
+timeWrapper.appendChild(timeLabel);
+timeWrapper.appendChild(timeSelect);
+// === Delete Icon ===
+const deleteIcon = document.createElement("span");
+deleteIcon.className = "delete-question";
+deleteIcon.title = "Delete this question";
+deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Font Awesome
+
+// Style it
+deleteIcon.style.cursor = "pointer";
+deleteIcon.style.color = "#d11a2a";
+deleteIcon.style.float = "right";
+deleteIcon.style.fontSize = "1.2rem";
+
+// Append it to the top-right of the questionItem
+
+// Delete handler
+deleteIcon.addEventListener("click", () => {
+    questionItem.remove();
+    updateQuestionCount();
+    updateQuestionTitles(); // <- Re-number questions
+});
+
+
+    metaRow.appendChild(typeDiv);
+    metaRow.appendChild(markWrapper);
+    metaRow.appendChild(timeWrapper);
+    metaRow.style.marginBottom="1rem";
+    metaRow.appendChild(deleteIcon);
+    questionItem.appendChild(metaRow);
+
+    // === Question Title ===
+    const title = document.createElement("strong");
+   title.textContent = `Q${count}: ${question}`;
+    title.style.color = "black";
+    title.style.fontSize = "1.1rem";
+    questionItem.appendChild(title);
+
+    // === Answers ===
+    const correctIndices = [];
+    document.querySelectorAll(".correct-check").forEach((btn, index) => {
+        if (btn.classList.contains("selected")) {
+            correctIndices.push(index);
+        }
+    });
+
+    const answerList = document.createElement("ul");
+    answerList.style.listStyleType = "none";
+    answerList.style.padding = "0";
+    answerList.style.display = "flex";
+    answerList.style.flexWrap = "wrap";
+    answerList.style.gap = "1rem";
+    answerList.style.marginTop = "0.5rem";
+
+    answers.forEach((answer, index) => {
+        const isCorrect = correctIndices.includes(index);
+        const li = document.createElement("li");
+        li.textContent = answer;
+        li.style.padding = "0.5rem 1rem";
+        li.style.borderRadius = "5px";
+        li.style.backgroundColor = "white";
+        li.style.fontWeight = "200";
+        li.style.border = "1px solid";
+        li.style.color = isCorrect ? "green" : "red";
+        li.style.borderColor = isCorrect ? "green" : "red";
+
+        const icon = document.createElement("span");
+        icon.textContent = isCorrect ? "✓ " : "✗ ";
+        icon.style.marginRight = "5px";
+
+        li.prepend(icon);
+        answerList.appendChild(li);
+    });
+
+    questionItem.appendChild(answerList);
+    questionContainer.appendChild(questionItem);
+    saveQuestionsToLocalStorage();
+    questionContainer.style.display = "block";
+
+    // Clear input fields
+    if (questionInputField.tagName === "INPUT") {
+        questionInputField.value = "";
+    } else {
+        questionInputField.innerText = "Type your question here...";
+    }
+
+    // Reset answers
+    answerContainer.innerHTML = '';
+    addInitialAnswerFields();
+
+    // Close the modal
+    modals.second.style.display = "none";
+    alert("Question saved successfully!");
+    updateQuestionCount();
+    }
+    function addInitialAnswerFields() {
+        for (let i = 0; i < 4; i++) {
+            const color = ["blue", "teal", "yellow", "red"][i];
+            const newAnswer = document.createElement("div");
+            newAnswer.classList.add("answer", color);
+
+            const checkButton = document.createElement("button");
+            checkButton.classList.add("correct-check");
+            checkButton.innerHTML = "✔";
+            checkButton.addEventListener("click", function () {
+                toggleCorrectAnswer(checkButton);
+            });
+
+            const deleteIcon = document.createElement("span");
+            deleteIcon.classList.add("delete");
+            deleteIcon.title = "Delete";
+            deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
+
+            const inputField = document.createElement("input");
+            inputField.type = "text";
+            inputField.classList.add("answer-input");
+            inputField.placeholder = "Type answer option here...";
+
+            newAnswer.appendChild(checkButton);
+            newAnswer.appendChild(deleteIcon);
+            newAnswer.appendChild(inputField);
+            answerContainer.appendChild(newAnswer);
+        }
+
+        // Add the "+" button for adding more answers
+        const addButton = document.createElement("button");
+        addButton.id = "addAnswerBtn";
+        addButton.classList.add("add-answer");
+        addButton.innerText = "+";
+        addButton.addEventListener("click", addAnswerField);
+        answerContainer.appendChild(addButton);
+    }
+    function addAnswerField() {
+        const currentAnswers = document.querySelectorAll(".answer-input").length;
+        if (currentAnswers >= 5) {
+            alert("You can only add up to 5 answers.");
+            return;
+        }
+
+        const colors = ["blue", "teal", "yellow", "red", "green"];
+        const newAnswer = document.createElement("div");
+        newAnswer.classList.add("answer", colors[currentAnswers % colors.length]);
+
+        const checkButton = document.createElement("button");
+        checkButton.classList.add("correct-check");
+        checkButton.innerHTML = "✔";
+        checkButton.addEventListener("click", function () {
+            toggleCorrectAnswer(checkButton);
+        });
+
+        const deleteIcon = document.createElement("span");
+        deleteIcon.classList.add("delete");
+        deleteIcon.title = "Delete";
+        deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
+
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.classList.add("answer-input");
+        inputField.placeholder = "Type answer option here...";
+
+        newAnswer.appendChild(checkButton);
+        newAnswer.appendChild(deleteIcon);
+        newAnswer.appendChild(inputField);
+        
+        // Insert before the "+" button
+        const addButton = document.getElementById("addAnswerBtn");
+        answerContainer.insertBefore(newAnswer, addButton);
+    }
+    function updateQuestionCount() {
+        const count = document.querySelectorAll(".saved-question").length;
+        const questionCountEl = document.querySelector(".Questions p");
+        if (questionCountEl) {
+            questionCountEl.innerHTML = `${count} Question${count !== 1 ? 's' : ''}<span> (${count} Point${count !== 1 ? 's' : ''})</span>`;
+        }
+        console.log(`Total questions: ${count}`);
+    }
+    function saveQuestionsToLocalStorage() {
+    const questions = Array.from(document.querySelectorAll(".saved-question")).map(question => {
+        const title = question.querySelector("strong")?.textContent || "";
+        const answers = Array.from(question.querySelectorAll("ul > li")).map(li => ({
+            text: li.textContent.replace("✓ ", "").replace("✗ ", "").trim(),
+            isCorrect: li.style.color === "green"
+        }));
+
+        const metaDivs = question.querySelectorAll("div");
+        const type = question.querySelector("div[style*='color: purple']:not(:has(select))")?.textContent.trim() || "Multiple Choice";
+        const markSelect = question.querySelector("select:nth-of-type(1)");
+        const timeSelect = question.querySelector("select:nth-of-type(2)");
+
+
+        const mark = markSelect?.value || "1 point";
+        const time = timeSelect?.value || "30 sec";
+
+        return { title, answers, type, mark, time };
+    });
+
+    localStorage.setItem("savedQuestions", JSON.stringify(questions));
+    }
+    function loadQuestionsFromLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("savedQuestions") || "[]");
+
+    data.forEach((q, index) => {
+        const questionItem = document.createElement("div");
+        questionItem.classList.add("saved-question");
+        questionItem.style.backgroundColor = "#f2f2f2";
+        questionItem.style.border = "1px solid #ccc";
+        questionItem.style.padding = "1rem";
+        questionItem.style.marginBottom = "1rem";
+        questionItem.style.borderRadius = "10px";
+        questionItem.style.width = "50rem";
+        questionItem.style.margin = "1rem 2rem";
+
+        // Meta Row
+        const metaRow = document.createElement("div");
+        metaRow.style.display = "flex";
+        metaRow.style.justifyContent = "space-between";
+        metaRow.style.marginBottom = "1rem";
+
+        const metaBoxStyle = {
+            backgroundColor: "white",
+            border: "2px solid gray",
+            borderRadius: "2rem",
+            padding: "0.3rem 1rem",
+            color: "purple",
+            fontWeight: "bold",
+            fontSize: "0.9rem"
+        };
+
+        const typeDiv = document.createElement("div");
+        typeDiv.textContent = q.type || "Multiple Choice";
+        Object.assign(typeDiv.style, metaBoxStyle);
+
+        const markWrapper = document.createElement("div");
+        Object.assign(markWrapper.style, metaBoxStyle);
+        const markLabel = document.createElement("span");
+markLabel.textContent = "Mark: ";
+const markSelect = document.createElement("select");
+["1 point", "2 points", "3 points"].forEach(optText => {
+    const option = document.createElement("option");
+    option.textContent = optText;
+    if (q.mark === optText) option.selected = true;
+    markSelect.appendChild(option);
+});
+Object.assign(markSelect.style, {
+    border: "none",
+    background: "transparent",
+    color: "purple",
+    fontWeight: "bold",
+    marginLeft: "0.5rem"
+});
+markWrapper.appendChild(markLabel);
+markWrapper.appendChild(markSelect);
+
+
+        const timeWrapper = document.createElement("div");
+        Object.assign(timeWrapper.style, metaBoxStyle);
+        const timeLabel = document.createElement("span");
+timeLabel.textContent = "Time: ";
+const timeSelect = document.createElement("select");
+["30 sec", "1 min", "1.5 min", "2 mins"].forEach(optText => {
+    const option = document.createElement("option");
+    option.textContent = optText;
+    if (q.time === optText) option.selected = true;
+    timeSelect.appendChild(option);
+});
+Object.assign(timeSelect.style, {
+    border: "none",
+    background: "transparent",
+    color: "purple",
+    fontWeight: "bold",
+    marginLeft: "0.5rem"
+});
+timeWrapper.appendChild(timeLabel);
+timeWrapper.appendChild(timeSelect);
+
+
+        const deleteIcon = document.createElement("span");
+        deleteIcon.className = "delete-question";
+        deleteIcon.title = "Delete this question";
+        deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteIcon.style.cursor = "pointer";
+        deleteIcon.style.color = "#d11a2a";
+        deleteIcon.style.float = "right";
+        deleteIcon.style.fontSize = "1.2rem";
+        deleteIcon.addEventListener("click", () => {
+            questionItem.remove();
+            updateQuestionCount();
+            updateQuestionTitles();
+            saveQuestionsToLocalStorage();
+        });
+
+        metaRow.appendChild(typeDiv);
+        metaRow.appendChild(markWrapper);
+        metaRow.appendChild(timeWrapper);
+        metaRow.appendChild(deleteIcon);
+        questionItem.appendChild(metaRow);
+
+        const title = document.createElement("strong");
+        title.textContent = `Q${index + 1}: ${q.title.split(": ").slice(1).join(": ")}`;
+        title.style.color = "black";
+        title.style.fontSize = "1.1rem";
+        questionItem.appendChild(title);
+
+        const answerList = document.createElement("ul");
+        answerList.style.listStyleType = "none";
+        answerList.style.padding = "0";
+        answerList.style.display = "flex";
+        answerList.style.flexWrap = "wrap";
+        answerList.style.gap = "1rem";
+        answerList.style.marginTop = "0.5rem";
+
+        q.answers.forEach(answer => {
+            const li = document.createElement("li");
+            li.textContent = answer.text;
+            li.style.padding = "0.5rem 1rem";
+            li.style.borderRadius = "5px";
+            li.style.backgroundColor = "white";
+            li.style.fontWeight = "200";
+            li.style.border = "1px solid";
+            li.style.color = answer.isCorrect ? "green" : "red";
+            li.style.borderColor = answer.isCorrect ? "green" : "red";
+
+            const icon = document.createElement("span");
+            icon.textContent = answer.isCorrect ? "✓ " : "✗ ";
+            icon.style.marginRight = "5px";
+
+            li.prepend(icon);
+            answerList.appendChild(li);
+        });
+
+        questionItem.appendChild(answerList);
+        questionContainer.appendChild(questionItem);
+        questionContainer.style.display = "block";
+    });
+
+    updateQuestionCount();
+    }
+    function validateMultipleChoiceInputs() {
+        // Get the question input
+        let questionInput;
+        if (questionInputField.tagName === "INPUT") {
+            questionInput = questionInputField.value.trim();
+        } else {
+            questionInput = questionInputField.innerText.trim();
+        }
+        
+        // Get all answer inputs
+        const answerInputs = Array.from(document.querySelectorAll(".answer-input"));
+        const answerValues = answerInputs.map(input => input.value.trim());
+        
+        // Check if any answer input is empty
+        const hasEmptyAnswer = answerInputs.some(input => input.value.trim() === "");
+        
+        // Check if any correct answer is selected
+        const hasSelectedAnswer = document.querySelectorAll(".correct-check.selected").length > 0;
+        
+        // Get or create the error message element
+        if (!errorMessage) {
+            errorMessage = document.getElementById("errorMessage");
+            if (!errorMessage) {
+                errorMessage = document.createElement("p");
+                errorMessage.id = "errorMessage";
+                errorMessage.style.color = "red";
+                errorMessage.style.display = "none";
+                if (document.querySelector(".button-container")) {
+                    document.querySelector(".button-container").appendChild(errorMessage);
+                }
+            }
+        }
+        
+        // Create or get the fill warning message
+        let fillWarning = document.getElementById("fillWarning");
+        if (!fillWarning) {
+            fillWarning = document.createElement("div");
+            fillWarning.id = "fillWarning";
+            fillWarning.style.color = "red";
+            fillWarning.style.marginTop = "5px";
+            if (answerContainer.parentNode) {
+                answerContainer.parentNode.insertBefore(fillWarning, answerContainer.nextSibling);
+            }
+        }
+        
+        // Validate inputs
+        if (!questionInput || questionInput === "Type your question here...") {
+            errorMessage.textContent = "Please enter a question.";
+            errorMessage.style.display = "block";
+            fillWarning.textContent = "";  // clear answer warning
+            return false;
+        } else if (answerValues.length < 2) {
+            errorMessage.textContent = "Please provide at least 2 answer options.";
+            errorMessage.style.display = "block";
+            fillWarning.textContent = "";  // clear answer warning
+            return false;
+        } else if (hasEmptyAnswer) {
+            errorMessage.style.display = "none";
+            fillWarning.textContent = "Please fill in all the answer fields.";
+            return false;
+        } else if (!hasSelectedAnswer) {
+            errorMessage.style.display = "none";
+            fillWarning.textContent = "Please mark at least one answer as correct.";
+            return false;
+        } else {
+            errorMessage.style.display = "none";
+            fillWarning.textContent = "";  // clear warning
+            return true;
+        }
+    }
+    function validateDropQuizInputs() {
+        const dropQuestion = dropQuestionInput.innerHTML;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = dropQuestion;
+        tempDiv.querySelectorAll('.blank-btn').forEach(btn => btn.remove());
+        const cleanedQuestion = tempDiv.innerHTML.trim();
+
+        const correctAnswers = Array.from(document.querySelectorAll(".correct-answer")).map(el => el.textContent);
+        const incorrectAnswers = Array.from(document.querySelectorAll(".incorrect-answer")).map(el => el.textContent);
+
+        const dropErrorMessage = document.querySelector("#DropModal #errorMessage") || 
+                                document.createElement("p");
+        
+        if (!dropErrorMessage.id) {
+            dropErrorMessage.id = "errorMessage";
+            dropErrorMessage.style.color = "red";
+            dropErrorMessage.style.display = "none";
+            const buttonContainer = document.querySelector(".button-container2");
+            if (buttonContainer) {
+                buttonContainer.appendChild(dropErrorMessage);
+            }
+        }
+        
+        // Check if all fields are filled
+        if (!cleanedQuestion || cleanedQuestion === "Type your question here...") {
+            dropErrorMessage.textContent = "Please enter a question.";
+            dropErrorMessage.style.display = "block";
+            return false;
+        } else if (correctAnswers.length === 0) {
+            dropErrorMessage.textContent = "Please add at least one correct answer.";
+            dropErrorMessage.style.display = "block";
+            return false;
+        }
+
+        dropErrorMessage.style.display = "none";
+        return true;
+    }
+    function saveDropQuestion() {
+    if (!validateDropQuizInputs()) return;
+
+    const dropQuestion = dropQuestionInput.innerHTML;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = dropQuestion;
+    tempDiv.querySelectorAll('.blank-btn').forEach(btn => btn.remove());
+    const cleanedQuestion = tempDiv.innerHTML;
+
+    const correctAnswers = Array.from(document.querySelectorAll(".correct-answer")).map(el => el.textContent);
+    const incorrectAnswers = Array.from(document.querySelectorAll(".incorrect-answer")).map(el => el.textContent);
+
+    const count = document.querySelectorAll(".saved-question").length + 1;
+
+    const questionItem = document.createElement("div");
+    questionItem.classList.add("saved-question");
+questionItem.dataset.type = "Drop Down";
+    questionItem.style.backgroundColor = "#f2f2f2";
+    questionItem.style.border = "1px solid #ccc";
+    questionItem.style.padding = "1rem";
+    questionItem.style.marginBottom = "1rem";
+    questionItem.style.borderRadius = "10px";
+    questionItem.style.width = "50rem";
+    questionItem.style.margin = "1rem 2rem";
+
+    const metaRow = document.createElement("div");
+    metaRow.style.display = "flex";
+    metaRow.style.justifyContent = "space-between";
+    metaRow.style.marginBottom = "0.5rem";
+
+    const metaBoxStyle = {
+        backgroundColor: "white",
+        border: "2px solid gray",
+        borderRadius: "2rem",
+        padding: "0.3rem 1rem",
+        color: "purple",
+        fontWeight: "bold",
+        fontSize: "0.9rem"
+    };
+
+    const typeDiv = document.createElement("div");
+    typeDiv.textContent = "Drop Down";
+    Object.assign(typeDiv.style, metaBoxStyle);
+
+    const markWrapper = document.createElement("div");
+    Object.assign(markWrapper.style, metaBoxStyle);
+    const markLabel = document.createElement("span");
+    markLabel.textContent = "Mark: ";
+    const markSelect = document.createElement("select");
+    ["1 point", "2 points", "3 points"].forEach(optText => {
+        const option = document.createElement("option");
+        option.textContent = optText;
+        markSelect.appendChild(option);
+    });
+    Object.assign(markSelect.style, {
+        border: "none",
+        background: "transparent",
+        color: "purple",
+        fontWeight: "bold",
+        marginLeft: "0.5rem"
+    });
+    markWrapper.appendChild(markLabel);
+    markWrapper.appendChild(markSelect);
+
+    const timeWrapper = document.createElement("div");
+    Object.assign(timeWrapper.style, metaBoxStyle);
+    const timeLabel = document.createElement("span");
+    timeLabel.textContent = "Time: ";
+    const timeSelect = document.createElement("select");
+    ["30 sec", "1 min", "1.5 min", "2 mins"].forEach(optText => {
+        const option = document.createElement("option");
+        option.textContent = optText;
+        timeSelect.appendChild(option);
+    });
+    Object.assign(timeSelect.style, {
+        border: "none",
+        background: "transparent",
+        color: "purple",
+        fontWeight: "bold",
+        marginLeft: "0.5rem"
+    });
+    timeWrapper.appendChild(timeLabel);
+    timeWrapper.appendChild(timeSelect);
+
+    const deleteIcon = document.createElement("span");
+    deleteIcon.className = "delete-question";
+    deleteIcon.title = "Delete this question";
+    deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Font Awesome
+    deleteIcon.style.cursor = "pointer";
+    deleteIcon.style.color = "#d11a2a";
+    deleteIcon.style.float = "right";
+    deleteIcon.style.fontSize = "1.2rem";
+
+    metaRow.appendChild(typeDiv);
+    metaRow.appendChild(markWrapper);
+    metaRow.appendChild(timeWrapper);
+    metaRow.style.marginBottom="1rem";
+    metaRow.appendChild(deleteIcon);
+    questionItem.appendChild(metaRow);
+
+    deleteIcon.addEventListener("click", () => {
+    questionItem.remove();
+    updateQuestionCount();
+    updateQuestionTitles(); // <- Re-number questions
+});
+
+    const title = document.createElement("strong");
+    title.textContent = `Q${count}: ${cleanedQuestion}`;
+    title.style.color = "black";
+    title.style.fontSize = "1.1rem";
+    questionItem.appendChild(title);
+
+    const answerList = document.createElement("ul");
+    answerList.style.listStyleType = "none";
+    answerList.style.padding = "0";
+    answerList.style.display = "flex";
+    answerList.style.flexWrap = "wrap";
+    answerList.style.gap = "1rem";
+    answerList.style.marginTop = "0.5rem";
+
+    [...correctAnswers, ...incorrectAnswers].forEach((answer, index) => {
+    const isCorrect = index < correctAnswers.length;
+
+    const li = document.createElement("li");
+    li.textContent = answer;
+    li.style.padding = "0.5rem 1rem";
+    li.style.borderRadius = "5px";
+    li.style.backgroundColor = "white";
+    li.style.fontWeight = "200";
+    li.style.border = "1px solid";
+    li.style.color = isCorrect ? "green" : "red";
+    li.style.borderColor = isCorrect ? "green" : "red";
+
+    const icon = document.createElement("span");
+    icon.textContent = isCorrect ? "✓ " : "✗ ";
+    icon.style.marginRight = "5px";
+
+    li.prepend(icon);
+    answerList.appendChild(li);
+});
+
+
+    questionItem.appendChild(answerList);
+    questionContainer.appendChild(questionItem);
+    saveQuestionsToLocalStorage();
+    questionContainer.style.display = "block";
+
+    // Reset and close modal
+    dropQuestionInput.innerHTML = "Type your question here...";
+    answerOptionsdD.querySelectorAll(".correct-answer, .incorrect-answer").forEach(el => el.remove());
+    modals.drop.style.display = "none";
+
+    updateQuestionCount();
+    alert("Question saved successfully!");
+    }
+    function insertEquation() {
+        let inputField = document.querySelector(":focus");
+        if (inputField) {
+            document.execCommand("insertText", false, "f(x) = ");
+        }
+    }
+    function updateQuestionTitles() {
+    const savedQuestions = document.querySelectorAll(".saved-question");
+    savedQuestions.forEach((qEl, index) => {
+        const titleEl = qEl.querySelector("strong");
+        if (titleEl) {
+            // Extract actual question text without previous Q#
+            const parts = titleEl.textContent.split(": ");
+            const rawQuestion = parts.slice(1).join(": ");
+            titleEl.textContent = `Q${index + 1}: ${rawQuestion}`;
+        }
+    });
+    }
+    // Formatting toolbar for text input
+    function setupFormattingToolbar() {
+        document.querySelectorAll(".quiz-formatting button").forEach(button => {
+            button.addEventListener("click", function () {
+                let command = this.innerText.trim();
+                let inputField = document.activeElement;
+                
+                if (!inputField || !inputField.isContentEditable) return;
+                
+                if (command === "A" || command === "B") {
+                    document.execCommand("bold", false, null);
+                } else if (command === "I") {
+                    document.execCommand("italic", false, null);
+                } else if (command === "U") {
+                    document.execCommand("underline", false, null);
+                } else if (command === "𝑆̶") {
+                    document.execCommand("strikeThrough", false, null);
+                } else if (command === "x¹") {
+                    document.execCommand("superscript", false, null);
+                } else if (command === "x₁") {
+                    document.execCommand("subscript", false, null);
+                } else if (command === "∑") {
+                    document.execCommand("insertText", false, "∑");
+                } else if (command.includes("Insert Equation")) {
+                    insertEquation();
+                }
+            });
         });
     }
-    
-    function updateBlankButton() {
-        const existingButton = dropQuestionInput.querySelector('.blank-btn');
+    // Event Listeners
+    function setupEventListeners() {
+        // Title editing
+        quizTitle.addEventListener("blur", saveTitle);
+        quizTitle.addEventListener("keypress", e => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                quizTitle.blur();
+            }
+        });
+        // Navigation
+        backButton.addEventListener("click", () => window.location.href = "../php/Dashboard.php");
+        addQuestionButton.addEventListener("click", () => modals.welcome.style.display = "flex");
+        // Modal closes
+        Object.entries(closes).forEach(([key, btn]) => {
+            if (btn) {
+                btn.addEventListener("click", () => modals[key].style.display = "none");
+            }
+        });
+        // Window click to close modals
+        window.addEventListener("click", e => {
+            Object.values(modals).forEach(modal => {
+                if (e.target === modal) modal.style.display = "none";
+            });
+        });
+
+        // Modal type selection
+        if (buttons.multipleChoice) {
+            buttons.multipleChoice.addEventListener("click", () => {
+                modals.welcome.style.display = "none";
+                modals.second.style.display = "flex";
+                // Reset initial answer fields when opening multiple choice modal
+                answerContainer.innerHTML = '';
+                addInitialAnswerFields();
+            });
+        }
+
+        if (buttons.drop) {
+    buttons.drop.addEventListener("click", () => {
+        modals.welcome.style.display = "none";
+        modals.drop.style.display = "flex";
+        dropQuestionInput.innerHTML = 'Type your question here...';
+
+        // Remove old instance if exists
+        const oldContainer = document.querySelector(".answer-optionsdD");
+        if (oldContainer) oldContainer.remove();
+
+        // Create container
+        // Inside buttons.drop event listener → create two sections
+const answerOptionsdD = document.createElement("div");
+answerOptionsdD.className = "answer-optionsdD";
+answerOptionsdD.style.display = "flex";
+answerOptionsdD.style.flexDirection = "column";
+
+// 🆕 Button group
+const buttonGroup = document.createElement("div");
+buttonGroup.className = "button-group";
+buttonGroup.style.display = "flex";
+buttonGroup.style.gap = "1rem";
+
+// Add buttons
+const correctBtn = document.createElement("button");
+correctBtn.id = "correct";
+correctBtn.className = "correct";
+correctBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Correct Answer';
+
+const incorrectBtn = document.createElement("button");
+incorrectBtn.id = "incorrect";
+incorrectBtn.className = "correct";
+incorrectBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Incorrect Answer';
+
+buttonGroup.appendChild(correctBtn);
+buttonGroup.appendChild(incorrectBtn);
+
+// Add both to main container
+answerOptionsdD.appendChild(buttonGroup);
+
+// 🆕 Empty answer list (to ensure it's always present)
+const answerList = document.createElement("div");
+answerList.className = "answer-list";
+answerList.style.marginTop = "1rem";
+answerList.style.display = "flex";
+answerList.style.flexWrap = "wrap";
+answerList.style.gap = "0.5rem";
+
+answerOptionsdD.appendChild(answerList);
+
+// Insert into DOM
+const dropModalEditor = modals.drop.querySelector("#quizEditor");
+dropModalEditor.appendChild(answerOptionsdD);
+
+
+        // Re-attach the event listeners to the dynamically added buttons
+       correctBtn.addEventListener("click", () => {
+    const blankBtn = dropQuestionInput.querySelector(".blank-btn");
+
+    // 1. Insert ____ beside the blank button
+    if (blankBtn) {
+        const blankText = document.createTextNode(" ____ ");
+        dropQuestionInput.insertBefore(blankText, blankBtn.nextSibling);
+
+        // Move the cursor to the end of the drop input
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(dropQuestionInput);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
+    // 2. Create the correct answer input field below
+    createAnswerField(true);
+});
+
+        incorrectBtn.addEventListener("click", () => createAnswerField(false));
+    });
+}
+
+
+        // Dropdown question blank button
+        if (buttons.insertBlank) {
+            buttons.insertBlank.addEventListener('click', () => {
+                insertTextAtCursor(dropQuestionInput);
+            });
+        }
+
+        // Save buttons
+        if (buttons.saveQuiz) {
+            buttons.saveQuiz.addEventListener("click", function () {
+                if (validateMultipleChoiceInputs()) {
+                    // Get question input
+                    let questionInput;
+                    if (questionInputField.tagName === "INPUT") {
+                        questionInput = questionInputField.value.trim();
+                    } else {
+                        questionInput = questionInputField.innerText.trim();
+                    }
+                    
+                    // Get answer inputs
+                    const answerInputs = Array.from(document.querySelectorAll(".answer-input"));
+                    const answerValues = answerInputs.map(input => input.value.trim());
+                    
+                    // Save the question
+                    saveQuestion(questionInput, answerValues);
+                }
+            });
+        }
+
+        // Save drop quiz button
+        if (buttons.saveDropQuiz) {
+            buttons.saveDropQuiz.addEventListener("click", saveDropQuestion);
+        }
+
+        // Answer mode toggle
+        const singleAnswerBtn = document.querySelector(".single-answer");
+        const multipleAnswersBtn = document.querySelector(".multiple-answers");
+        
+        if (singleAnswerBtn && multipleAnswersBtn) {
+            // By default, set single-answer as selected
+            singleAnswerBtn.classList.add('selected');
+            
+            singleAnswerBtn.addEventListener("click", () => {
+                window.singleAnswerMode = true;
+                // Toggle selected class
+                singleAnswerBtn.classList.add('selected');
+                multipleAnswersBtn.classList.remove('selected');
+                
+                // Clear all selections when switching modes
+                document.querySelectorAll(".correct-check").forEach(btn => {
+                    btn.classList.remove("selected");
+                    btn.style.backgroundColor = "";
+                    btn.style.color = "";
+                });
+            });
+            
+            multipleAnswersBtn.addEventListener("click", () => {
+                window.singleAnswerMode = false;
+                // Toggle selected class
+                singleAnswerBtn.classList.remove('selected');
+                multipleAnswersBtn.classList.add('selected');
+                
+                // Clear all selections when switching modes
+                document.querySelectorAll(".correct-check").forEach(btn => {
+                    btn.classList.remove("selected");
+                    btn.style.backgroundColor = "";
+                    btn.style.color = "";
+                });
+            });
+        }
+
+        // Event delegation for dynamically added buttons
+        answerContainer.addEventListener("click", (e) => {
+            if (e.target.classList.contains("correct-check")) {
+                toggleCorrectAnswer(e.target);
+            }
+            if (e.target.closest(".delete")) {
+                const answerDiv = e.target.closest(".answer");
+                if (answerDiv) {
+                    answerDiv.remove();
+                }
+            }
+        });
+
+        // Dropdown question specific event listeners
+        if (buttons.addCorrect) {
+            buttons.addCorrect.addEventListener('click', () => createAnswerField(true));
+        }
+        
+        if (buttons.addIncorrect) {
+            buttons.addIncorrect.addEventListener('click', () => createAnswerField(false));
+        }
+
+        // Dropdown question input event listeners
+        if (dropQuestionInput) {
+            dropQuestionInput.addEventListener('input', () => {
+                updateBlankButton(dropQuestionInput);
+            });
+            
+            dropQuestionInput.addEventListener('focus', function() {
+                if (this.textContent.trim() === 'Type your question here...') {
+                    this.textContent = '';
+                }
+                updateBlankButton(this);
+            });
+            
+            dropQuestionInput.addEventListener('blur', function() {
+                if (getActualTextContent(this) === '') {
+                    const blankBtn = this.querySelector('.blank-btn');
+                    if (blankBtn) {
+                        blankBtn.remove();
+                    }
+                    this.textContent = 'Type your question here...';
+                }
+            });
+            
+            dropQuestionInput.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    placeCursorAtEnd(this);
+                }
+            });
+        }
+
+        // Question input field event listeners
+        if (questionInputField) {
+            questionInputField.addEventListener("focus", function () {
+                if (this.innerText.trim() === "Type your question here...") {
+                    this.innerText = "";
+                }
+            });
+
+            questionInputField.addEventListener("blur", function () {
+                if (this.innerText.trim() === "") {
+                    this.innerText = "Type your question here...";
+                }
+            });
+        }
+    }
+    function updateBlankButton(container) {
+        const existingButton = container.querySelector('.blank-btn');
         if (existingButton) existingButton.remove();
         
-        const actualTextContent = getActualTextContent(dropQuestionInput);
+        const actualTextContent = getActualTextContent(container);
         if (actualTextContent !== '' && actualTextContent !== 'Type your question here...') {
             const blankBtn = document.createElement('button');
             blankBtn.className = 'blank-btn';
@@ -112,7 +1423,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 // Insert blank underscores at this position
                 const blankText = document.createTextNode("____ ");
-                dropQuestionInput.appendChild(blankText);
+                container.appendChild(blankText);
                 
                 // Place cursor after the blank
                 const range = document.createRange();
@@ -126,233 +1437,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 createAnswerField(true);
                 
                 // Since content has changed, update to potentially add a new blank button
-                setTimeout(updateBlankButton, 0);
+                setTimeout(() => updateBlankButton(container), 0);
             });
             
-            dropQuestionInput.appendChild(blankBtn);
+            container.appendChild(blankBtn);
         }
     }
-    
-    function saveQuestion(question, answers) {
-        let questionItem = document.createElement("div");
-        questionItem.classList.add("saved-question");
-        questionItem.innerHTML = `<strong>${question}</strong><ul>${answers.map(ans => `<li>${ans}</li>`).join("")}</ul>`;
-        
-        questionContainer.appendChild(questionItem);
-        questionContainer.style.display = "block";
-        
-        questionInputDiv.innerText = "Type your question here...";
-        document.querySelectorAll(".answer-input").forEach(input => input.value = "");
-        
-        secondModal.style.display = "none";
-        alert("Question saved successfully!");
+    // Initialize the quiz creator
+    function initQuizCreator() {
+    // Add initial answer fields
+    addInitialAnswerFields();
+
+    // Restore quiz title
+    const savedTitle = localStorage.getItem("quizTitle");
+    if (savedTitle) {
+        quizTitle.innerText = savedTitle;
     }
-    
-    function insertEquation() {
-        let inputField = document.querySelector(":focus");
-        if (inputField) {
-            document.execCommand("insertText", false, "f(x) = ");
-        }
-    }
-    
-    // Event Listeners - Modal Controls
-    addQuestionButton.addEventListener("click", function () {
-        modal.style.display = "flex";
-    });
-    
-    closeModal.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-    
-    secondClose.addEventListener("click", function () {
-        secondModal.style.display = "none";
-    });
-    
-    DropClose.addEventListener("click", function () {
-        DropModal.style.display = "none";
-    });
-    
-    // Event Listeners - Window Click (Close Modals)
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-        if (event.target === secondModal) {
-            secondModal.style.display = "none";
-        }
-        if (event.target === DropModal) {
-            DropModal.style.display = "none";
-        }
-    });
-    
-    // Event Listeners - Modal Type Selection
-    multipleChoiceBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-        secondModal.style.display = "flex";
-    });
-    
-    DropBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-        DropModal.style.display = "flex";
-    });
-    
-    // Event Listeners - Navigation
-    backButton.addEventListener("click", function () {
-        window.location.href = "../html/Dashboard.html";
-    });
-    
-    // Event Listeners - Title Editing
-    quizTitle.addEventListener("blur", saveTitle);
-    quizTitle.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            quizTitle.blur();
-        }
-    });
-    
-    // Event Listeners - Multiple Choice Question
-    addAnswerBtn.addEventListener("click", function () {
-        let newAnswer = document.createElement("div");
-        newAnswer.classList.add("answer", "blue");
 
-        let checkButton = document.createElement("button");
-        checkButton.classList.add("correct-check");
-        checkButton.innerHTML = "✔";
-        checkButton.addEventListener("click", function () {
-            toggleCorrectAnswer(checkButton);
-        });
+    // Setup event listeners
+    setupEventListeners();
 
-        let inputField = document.createElement("input");
-        inputField.type = "text";
-        inputField.classList.add("answer-input");
-        inputField.placeholder = "Type answer option here...";
+    // Setup formatting toolbar
+    setupFormattingToolbar();
 
-        let deleteIcon = document.createElement("span");
-        deleteIcon.classList.add("delete");
-        deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        deleteIcon.addEventListener("click", function () {
-            newAnswer.remove();
-        });
+    // Load saved questions
+    loadQuestionsFromLocalStorage();
+}
 
-        newAnswer.appendChild(checkButton);
-        newAnswer.appendChild(inputField);
-        newAnswer.appendChild(deleteIcon);
-        answerContainer.appendChild(newAnswer);
-    });
-    
-    document.querySelector(".single-answer").addEventListener("click", function () {
-        singleAnswerMode = true;
-        document.querySelectorAll(".correct-check").forEach(btn => btn.classList.remove("selected"));
-    });
-    
-    document.querySelector(".multiple-answers").addEventListener("click", function () {
-        singleAnswerMode = false;
-    });
-    
-    document.body.addEventListener("click", function (event) {
-        if (event.target.closest(".delete")) {
-            event.target.closest(".answer").remove();
-        }
-    });
-    
-    // Event Listeners - Save Multiple Choice Question
-    document.getElementById("saveQuiz").addEventListener("click", function () {
-        let questionInput = questionInputDiv.innerText.trim();
-        let answerInputs = document.querySelectorAll(".answer-input");
-        
-        let answers = [];
-        answerInputs.forEach(input => {
-            let answerText = input.value.trim();
-            if (answerText !== "") {
-                answers.push(answerText);
-            }
-        });
-        
-        if (questionInput === "Type your question here..." || !questionInput || answers.length === 0) {
-            errorMessage.style.display = "block";
-        } else {
-            errorMessage.style.display = "none";
-            saveQuestion(questionInput, answers);
-        }
-    });
-    
-    // Event Listeners - Dropdown Question
-    addCorrectBtn.addEventListener('click', function () {
-        createAnswerField(true);
-    });
-
-    addIncorrectBtn.addEventListener('click', function () {
-        createAnswerField(false);
-    });
-    
-    // Event Listeners - Drop Question Input
-    if (dropQuestionInput) {
-        dropQuestionInput.addEventListener('input', updateBlankButton);
-        
-        dropQuestionInput.addEventListener('focus', function() {
-            if (this.textContent.trim() === 'Type your question here...') {
-                this.textContent = '';
-            }
-            updateBlankButton();
-        });
-        
-        dropQuestionInput.addEventListener('blur', function() {
-            if (getActualTextContent(this) === '') {
-                const blankBtn = this.querySelector('.blank-btn');
-                if (blankBtn) {
-                    blankBtn.remove();
-                }
-                this.textContent = 'Type your question here...';
-            }
-        });
-        
-        dropQuestionInput.addEventListener('click', function(e) {
-            if (e.target === this) {
-                placeCursorAtEnd(this);
-            }
-        });
-    }
-    
-    // Event Listeners - Multiple Choice Question Input
-    if (questionInputDiv) {
-        questionInputDiv.addEventListener("focus", function () {
-            if (this.innerText.trim() === "Type your question here...") {
-                this.innerText = "";
-            }
-        });
-
-        questionInputDiv.addEventListener("blur", function () {
-            if (this.innerText.trim() === "") {
-                this.innerText = "Type your question here...";
-            }
-        });
-    }
-    
-    // Event Listeners - Formatting Toolbar
-    document.querySelectorAll(".quiz-formatting button").forEach(button => {
-        button.addEventListener("click", function () {
-            let command = this.innerText.trim();
-            let inputField = document.activeElement;
-            
-            if (!inputField || !inputField.isContentEditable) return;
-            
-            if (command === "A" || command === "B") {
-                document.execCommand("bold", false, null);
-            } else if (command === "I") {
-                document.execCommand("italic", false, null);
-            } else if (command === "U") {
-                document.execCommand("underline", false, null);
-            } else if (command === "𝑆̶") {
-                document.execCommand("strikeThrough", false, null);
-            } else if (command === "x¹") {
-                document.execCommand("superscript", false, null);
-            } else if (command === "x₁") {
-                document.execCommand("subscript", false, null);
-            } else if (command === "∑") {
-                document.execCommand("insertText", false, "∑");
-            } else if (command.includes("Insert Equation")) {
-                insertEquation();
-            }
-        });
-    });
+    // Initialize when DOM is fully loaded
+    initQuizCreator();
 });
