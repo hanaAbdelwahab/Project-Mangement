@@ -19,7 +19,7 @@
     </div>
       
     <div class="navbar">
-        <a href="attend.php" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <a href="Dashboard.php" class="back-btn"><i class="fas fa-arrow-left"></i></a>
         <div class="title">Computer Basics Quiz</div>
         <div class="spacer"></div>
     </div>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="../css/attend.css" rel="stylesheet">
     <title>Computer Knowledge Quiz</title>
     <style>
@@ -235,10 +235,10 @@ if (!isset($_SESSION['username'])) {
 <body>
     <div class="background-image"></div>
     <nav class="navbar">
-        <span class="nav-title">Computer Knowledge Quiz</span>
+        <span class="nav-title">Biology Ch1</span>
         <span id="timer" class="nav-timer">00:00</span>
         <div class="nav-right">
-            <p title="Quiz-Code">5544 6644</p>
+            <p title="Quiz-Code">5796 6854</p>
             <button id="fullscreen-btn" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
         </div>
     </nav>
@@ -247,23 +247,23 @@ if (!isset($_SESSION['username'])) {
         <!-- Question 1 -->
         <div class="question-container" id="q1">
             <span class="question-number">1/10</span>
-            <div class="question-text">What does CPU stand for?</div>
+            <div class="question-text">What is the basic unit of life?</div>
             <div class="mcq-container" data-group="q1">
                 <div class="mcq-option">
                     <input type="radio" id="q1-a" name="q1" value="a">
-                    <label for="q1-a">Central Processing Unit</label>
+                    <label for="q1-a">Atom</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q1-b" name="q1" value="b">
-                    <label for="q1-b">Computer Personal Unit</label>
+                    <label for="q1-b">Cell</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q1-c" name="q1" value="c">
-                    <label for="q1-c">Central Print Unit</label>
+                    <label for="q1-c">Organ</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q1-d" name="q1" value="d">
-                    <label for="q1-d">Control Processing Unit</label>
+                    <label for="q1-d">Tissue</label>
                 </div>
             </div>
         </div>
@@ -271,23 +271,23 @@ if (!isset($_SESSION['username'])) {
         <!-- Question 2 -->
         <div class="question-container" id="q2" style="display: none;">
             <span class="question-number">2/10</span>
-            <div class="question-text">What is RAM?</div>
+            <div class="question-text">Which organ helps humans breathe?</div>
             <div class="mcq-container" data-group="q2">
                 <div class="mcq-option">
                     <input type="radio" id="q2-a" name="q2" value="a">
-                    <label for="q2-a">Read Access Memory</label>
+                    <label for="q2-a">Heart</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q2-b" name="q2" value="b">
-                    <label for="q2-b">Random Access Memory</label>
+                    <label for="q2-b">Liver</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q2-c" name="q2" value="c">
-                    <label for="q2-c">Remote Access Module</label>
+                    <label for="q2-c">Lungs</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q2-d" name="q2" value="d">
-                    <label for="q2-d">Runtime Application Module</label>
+                    <label for="q2-d">Stomach</label>
                 </div>
             </div>
         </div>
@@ -295,46 +295,46 @@ if (!isset($_SESSION['username'])) {
         <!-- Question 3 -->
         <div class="question-container" id="q3" style="display: none;">
             <span class="question-number">3/10</span>
-            <div class="question-text">Which of these is a storage device?</div>
+            <div class="question-text">What do plants need to make food?</div>
             <div class="mcq-container" data-group="q3">
                 <div class="mcq-option">
                     <input type="radio" id="q3-a" name="q3" value="a">
-                    <label for="q3-a">CPU</label>
+                    <label for="q3-a">Moonlight</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q3-b" name="q3" value="b">
-                    <label for="q3-b">Mouse</label>
+                    <label for="q3-b">Soil only</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q3-c" name="q3" value="c">
-                    <label for="q3-c">Hard Disk</label>
+                    <label for="q3-c">Sunlight</label>
                 </div>
                 <div class="mcq-option">
                     <input type="radio" id="q3-d" name="q3" value="d">
-                    <label for="q3-d">Monitor</label>
+                    <label for="q3-d">Wind</label>
                 </div>
             </div>
         </div>
 <!-- Question 4: MCQ -->
 <div class="question-container" id="q4" style="display: none;">
     <span class="question-number">4/10</span>
-    <div class="question-text">Which of these is an input device?</div>
+    <div class="question-text">Which part of the plant takes in water from the soil?</div>
     <div class="mcq-container" data-group="q4">
         <div class="mcq-option">
             <input type="radio" id="q4-a" name="q4" value="a">
-            <label for="q4-a">Printer</label>
+            <label for="q4-a">Leaf</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q4-b" name="q4" value="b">
-            <label for="q4-b">Mouse</label>
+            <label for="q4-b">Stem</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q4-c" name="q4" value="c">
-            <label for="q4-c">Monitor</label>
+            <label for="q4-c">Flower</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q4-d" name="q4" value="d">
-            <label for="q4-d">Speaker</label>
+            <label for="q4-d">Roots</label>
         </div>
     </div>
 </div>
@@ -342,43 +342,43 @@ if (!isset($_SESSION['username'])) {
 <!-- Question 5: Open-ended -->
 <div class="question-container" id="q5" style="display: none;">
     <span class="question-number">5/10</span>
-    <div class="question-text">What does HTML stand for?</div>
+    <div class="question-text">What is the powerhouse of the cell?</div>
     <input type="text" name="q5" placeholder="Your answer here" class="mcq-option" style="padding: 1rem; width: 80%; margin-top: 1rem; border: none;">
 </div>
 
 <!-- Question 6: Dropdown -->
 <div class="question-container" id="q6" style="display: none;">
     <span class="question-number">6/10</span>
-    <div class="question-text">Select a programming language:</div>
+    <div class="question-text">Which part of the body pumps blood?</div>
     <select name="q6" class="mcq-option" style="padding: 1rem; width: fit-content; font-size: 1rem; margin-top: 1rem;">
         <option value="">--Choose--</option>
-        <option value="python">Python</option>
-        <option value="java">Java</option>
-        <option value="html">HTML</option>
-        <option value="css">CSS</option>
+        <option value="brain">Brain</option>
+        <option value="lungs">Lungs</option>
+        <option value="heart">Heart</option>
+        <option value="liver">Liver</option>
     </select>
 </div>
 
 <!-- Question 7: MCQ -->
 <div class="question-container" id="q7" style="display: none;">
     <span class="question-number">7/10</span>
-    <div class="question-text">Which one is an operating system?</div>
+    <div class="question-text">Which of these is a mammal?</div>
     <div class="mcq-container" data-group="q7">
         <div class="mcq-option">
             <input type="radio" id="q7-a" name="q7" value="a">
-            <label for="q7-a">Oracle</label>
+            <label for="q7-a">Snake</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q7-b" name="q7" value="b">
-            <label for="q7-b">Linux</label>
+            <label for="q7-b">Frog</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q7-c" name="q7" value="c">
-            <label for="q7-c">Photoshop</label>
+            <label for="q7-c">Whale</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q7-d" name="q7" value="d">
-            <label for="q7-d">Visual Studio</label>
+            <label for="q7-d">Lizard</label>
         </div>
     </div>
 </div>
@@ -386,43 +386,43 @@ if (!isset($_SESSION['username'])) {
 <!-- Question 8: Open-ended -->
 <div class="question-container" id="q8" style="display: none;">
     <span class="question-number">8/10</span>
-    <div class="question-text">What does URL stand for?</div>
+    <div class="question-text">What is the green pigment in plants that helps in photosynthesis?</div>
     <input type="text" name="q8" placeholder="Your answer here" class="mcq-option" style="padding: 1rem; width: 80%; margin-top: 1rem; border: none;">
 </div>
 
 <!-- Question 9: Dropdown -->
 <div class="question-container" id="q9" style="display: none;">
     <span class="question-number">9/10</span>
-    <div class="question-text">Choose a web browser:</div>
+    <div class="question-text">What do animals need to survive?</div>
     <select name="q9" class="mcq-option" style="padding: 1rem; width: fit-content; font-size: 1rem; margin-top: 1rem;">
         <option value="">--Choose--</option>
-        <option value="chrome">Google Chrome</option>
-        <option value="firefox">Mozilla Firefox</option>
-        <option value="edge">Microsoft Edge</option>
-        <option value="safari">Safari</option>
+        <option value="sand">Sand</option>
+        <option value="music">Music</option>
+        <option value="oxygen">Oxygen</option>
+        <option value="plastic">Plastic</option>
     </select>
 </div>
 
 <!-- Question 10: MCQ -->
 <div class="question-container" id="q10" style="display: none;">
     <span class="question-number">10/10</span>
-    <div class="question-text">Which of these is NOT a programming language?</div>
+    <div class="question-text">What do we call animals that eat only plants?</div>
     <div class="mcq-container" data-group="q10">
         <div class="mcq-option">
             <input type="radio" id="q10-a" name="q10" value="a">
-            <label for="q10-a">Python</label>
+            <label for="q10-a">Carnivores</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q10-b" name="q10" value="b">
-            <label for="q10-b">HTML</label>
+            <label for="q10-b">Omnivores</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q10-c" name="q10" value="c">
-            <label for="q10-c">Java</label>
+            <label for="q10-c">Herbivores</label>
         </div>
         <div class="mcq-option">
             <input type="radio" id="q10-d" name="q10" value="d">
-            <label for="q10-d">C++</label>
+            <label for="q10-d">Insectivores</label>
         </div>
     </div>
 </div>
@@ -459,7 +459,20 @@ if (!isset($_SESSION['username'])) {
     </div>
 </footer>
 
-<script src="../js/attend.js"></script>
+<!-- Exit Warning Modal -->
+<div id="exitModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 9999;">
+  <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; font-family: 'Montserrat', sans-serif; color: #4A0072; max-width: 350px;">
+    <img src="../images/warning-joypixels.gif" alt="Warning" style="width: 60px; height: 60px; margin-bottom: 15px;">
+    <p style="font-weight: bold; font-size: 16px;">Are you sure you want to leave the quiz?</p>
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+      <button onclick="cancelExit()" style="padding: 10px 20px; background-color: #6A0DAD; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+      <button onclick="confirmExit()" style="padding: 10px 20px; background-color: #ff4c4c; color: white; border: none; border-radius: 5px; cursor: pointer;">Yes</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="../js/biology-quiz.js"></script>
 <script>
     let seconds = 0;
 let timerElement = document.getElementById("timer");
@@ -474,5 +487,34 @@ function updateTimer() {
 
 let timerInterval = setInterval(updateTimer, 1000);
 </script>
+<script>
+    // Push dummy state to history so we can detect back
+    window.history.pushState({ page: 1 }, "", "");
+
+    window.addEventListener("popstate", function (event) {
+        // Show your custom exit modal
+        document.getElementById("exitModal").style.display = "flex";
+
+        // Push state again so back stays on page until user confirms
+        window.history.pushState({ page: 1 }, "", "");
+    });
+window.onbeforeunload = function () {
+    return "Are you sure you want to leave the quiz?";
+};
+
+    function cancelExit() {
+        document.getElementById("exitModal").style.display = "none";
+    }
+
+function confirmExit() {
+    window.onbeforeunload = null; // Disable the native alert
+    window.location.href = '../php/attendQuiz.php'; // Navigate cleanly
+}
+
+
+
+</script>
+
+
 </body>
 </html>

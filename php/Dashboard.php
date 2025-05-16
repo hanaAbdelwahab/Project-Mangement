@@ -28,155 +28,12 @@ if (!isset($_SESSION['username'])) {
     <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for Stats -->
-    <style>
-        /* Profile Icon and Dropdown Styles */
-        .profile-dropdown {
-            position: relative;
-            display: inline-block;
-            margin-left: 15px;
-        }
-        
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 2px solid #fff;
-            color: purple;
-            font-size: 18px;
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            min-width: 220px;
-            background-color: #fff;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            z-index: 100;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .dropdown-content a {
-            color: #333;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-        
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .dropdown-content a i {
-            margin-right: 8px;
-            width: 16px;
-        }
-        
-        .show {
-            display: block;
-        }
-        
-        /* Arrow for dropdown */
-        .dropdown-content::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            right: 15px;
-            border-width: 0 10px 10px 10px;
-            border-style: solid;
-            border-color: transparent transparent #fff transparent;
-        }
-        
-        /* User profile in dropdown */
-        .user-profile {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-initials {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: purple;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 12px;
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            margin: 0;
-            color: #333;
-            font-size: 14px;
-        }
-        
-        .user-email {
-            margin: 0;
-            color: #666;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-    </style>
 </head>
 <body>
 
 <div class="hero-section">
 <div class="white-overlay"></div> <!-- White Background Behind Text -->
-<nav class="navbar">
-    <div class="logo">QuizzyVerse</div>
-    <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Activity</a>
-        <a href="#">Classes</a>
-        <a href="../php/explore.php">Explore</a>
-    </div>
-    <div class="button-container">
-        <?php if ($_SESSION['role'] !== 'student'): ?>
-          <button class="create-quiz" onclick="window.location.href='../php/create.php'">Create Quiz</button>
-        <?php endif; ?>
-        <button class="attend-quiz" onclick="window.location.href='../php/attendQuiz.php'">Attend Quiz</button>
-        
-        <!-- Profile Icon with Dropdown -->
-        <div class="profile-dropdown">
-            <div class="profile-icon" onclick="toggleDropdown()">
-                <i class="fas fa-user"></i>
-            </div>
-            <div id="profileDropdown" class="dropdown-content">
-                <div class="user-profile">
-                    <div class="user-initials">
-                        <?php echo substr($_SESSION['username'], 0, 1); ?>
-                    </div>
-                    <div class="user-info">
-                        <p class="user-name"><?php echo htmlspecialchars($_SESSION['username']); ?></p>
-                        <p class="user-email"><?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'user@quizzyverse.com'; ?></p>
-                    </div>
-                </div>
-                <a href="../php/profile.php"><i class="fas fa-user-circle"></i> View Profile</a>
-                <a href="?logout=true"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-        </div>
-    </div>
-</nav>
+<?php include '../php/loggednavebar.php'; ?>
 
     <!-- Dashboard Container -->
     <div class="dashboard">
@@ -309,23 +166,7 @@ if (!isset($_SESSION['username'])) {
         });
     });
 
-    // Profile dropdown functionality
-    function toggleDropdown() {
-        document.getElementById("profileDropdown").classList.toggle("show");
-    }
 
-    // Close dropdown when clicking outside
-    window.onclick = function(event) {
-        if (!event.target.matches('.profile-icon') && !event.target.matches('.fa-user')) {
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                const openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
 </script>
 </body>
 </html>

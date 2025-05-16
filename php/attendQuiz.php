@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Attend Quiz</title>
     <style>
@@ -145,20 +146,50 @@
     <div class="logo">QuizzyVerse</div>
     <div class="nav-buttons">
     <button onclick="window.location.href='../php/Dashboard.php'">My Dashboard</button>
-<button onclick="window.location.href='../php/home.php'">Home</button>
 
 
     </div>
 </div>
 
 <!-- Form -->
+<!-- Form -->
 <div class="container">
     <h1>QuizzyVerse</h1>
     <div class="form-box">
-        <input type="text" placeholder="Enter a join code">
-        <button onclick="window.location.href='../php/attend.php'">Join</button>
+        <input type="text" id="joinCodeInput" placeholder="Enter a join code">
+        <button onclick="handleJoin()">Join</button>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="errorModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div style="background:white; color:#4A0072; padding:30px; border-radius:10px; text-align:center; font-family:'Montserrat', sans-serif; max-width:300px;">
+        <div style="margin-bottom:10px;">
+  <img src="../images/warning-joypixels.gif" alt="Warning" style="width:60px; height:60px;">
+</div>
+
+        <p style="font-weight:600;">The entered code is not valid.<br>Please check it again.</p>
+        <button onclick="closeModal()" style="margin-top:15px; padding:8px 20px; background-color:#6A0DAD; border:none; color:white; border-radius:5px; cursor:pointer;">Close</button>
+    </div>
+</div>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    function handleJoin() {
+        const code = document.getElementById('joinCodeInput').value.trim();
+        if (code === "5796 6854") {
+            window.location.href = "../php/quiz.php";
+        } else if (code === "5544 6644") {
+            window.location.href = "../php/attend.php";
+        } else {
+            document.getElementById("errorModal").style.display = "flex";
+        }
+    }
+
+    function closeModal() {
+        document.getElementById("errorModal").style.display = "none";
+    }
+</script>
+
 
 </body>
 </html>
