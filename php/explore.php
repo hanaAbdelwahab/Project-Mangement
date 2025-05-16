@@ -12,6 +12,8 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Quizzes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cheddar+Gothic+Rough&display=swap" rel="stylesheet">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -163,7 +165,7 @@ if (!isset($_SESSION['username'])) {
         }
 
         .quiz-back-details {
-            text-align: center;
+            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -178,7 +180,7 @@ if (!isset($_SESSION['username'])) {
 
         .quiz-back-details p {
             margin: 5px 0;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         @media (max-width: 1024px) {
@@ -222,7 +224,7 @@ if (!isset($_SESSION['username'])) {
     <script>
        const quizzes = [
             {"title": "Biology Ch1", "questions": 20, "color": "#007bff", "instructor": "Dr. Ahmed", "photo": "https://t3.ftcdn.net/jpg/03/45/75/94/360_F_345759488_gh3cxWU7DEnZJCmDiggHnsuM2zqpkTpG.jpg", "category": "biology", "difficulty": "Beginner", "duration": "30 mins", "description": "An introductory quiz covering fundamental biological concepts and principles."},
-            {"title": "Chemistry Organic", "questions": 15, "color": "#28a745", "instructor": "Prof. Fatima", "photo": "https://media.istockphoto.com/id/1365527907/photo/portrait-of-smiling-mature-teacher-with-laptop-in-the-classroom.jpg?s=612x612&w=0&k=20&c=9Zgf2IEHkNV7LTEcmFLgOTqY8jaX0K5P-8IYmsyafA4=", "category": "chemistry", "difficulty": "Intermediate", "duration": "45 mins", "description": "Dive deep into organic chemistry reactions and molecular structures."},
+            {"title": "Chemistry Organic", "questions": 15, "color": "#28a745", "instructor": "Prof. Fatima", "photo": "https://media.istockphoto.com/id/1365527907/photo/portrait-of-smiling-mature-teacher-with-laptop-in-the-classroom.jpg?s=612x612&w=0&k=20&c=9Zgf2IEHkNV7LTEcmFLgOTqY8jaX0K5P-8IYmsyafA4=", "category": "chemistry", "difficulty": "Intermediate", "duration": "45 mins", "description": "Dive deep into organic chemistry reactions & molecular structures."},
             {"title": "Physics Motion", "questions": 25, "color": "#ff9800", "instructor": "Dr. Hassan", "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbLFc4jnvPpJFqK0zeIY8PxYDKuPSSDsrHog&s", "category": "physics", "difficulty": "Advanced", "duration": "60 mins", "description": "Comprehensive quiz on classical mechanics and motion principles."},
             {"title": "Math Algebra", "questions": 30, "color": "#9c27b0", "instructor": "Prof. Aisha", "photo": "https://media.istockphoto.com/id/1365527907/photo/portrait-of-smiling-mature-teacher-with-laptop-in-the-classroom.jpg?s=612x612&w=0&k=20&c=9Zgf2IEHkNV7LTEcmFLgOTqY8jaX0K5P-8IYmsyafA4=", "category": "maths", "difficulty": "Intermediate", "duration": "40 mins", "description": "Test your algebraic skills with challenging problems and concepts."},
             {"title": "History WW2", "questions": 10, "color": "#e91e63", "instructor": "Dr. Omar", "photo": "https://t3.ftcdn.net/jpg/03/45/75/94/360_F_345759488_gh3cxWU7DEnZJCmDiggHnsuM2zqpkTpG.jpg", "category": "history", "difficulty": "Beginner", "duration": "25 mins", "description": "Explore key events and turning points of World War II."},
@@ -259,7 +261,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
                     <div class="quiz-box-back" style="background-color: ${quiz.color}">
                         <div class="quiz-back-details">
-                            <h3>${quiz.title}</h3>
+                            <h3 style="font-family: 'Archer Gage Demo', sans-serif;">${quiz.title}</h3>
                             <p><strong>Difficulty:</strong> ${quiz.difficulty}</p>
                             <p><strong>Duration:</strong> ${quiz.duration}</p>
                             <p>${quiz.description}</p>

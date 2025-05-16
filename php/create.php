@@ -256,7 +256,107 @@
   </div>
 </div>
 </div>
+<!-- Error Modal -->
+<div id="dropErrorModal" class="modal" style="display:none; justify-content:center; align-items:center;">
+  <div style="
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  ">
+    <h3 style="color: #d11a2a; margin-bottom: 1rem;"><i class="fas fa-exclamation-triangle"></i> Error</h3>
+    <p id="dropErrorMessageText" style="color: #333; font-weight: 500;"></p>
+    <button onclick="document.getElementById('dropErrorModal').style.display='none'" style="
+      margin-top: 1rem;
+      padding: 10px 20px;
+      background-color: #6b1f9e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    ">OK</button>
+  </div>
+</div>
+<!-- Success Modal -->
+<div id="successModal" class="modal" style="display: none; justify-content: center; align-items: center;">
+  <div style="
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  ">
+    <h3 style="color: green; margin-bottom: 1rem;"><i class="fas fa-check-circle"></i> Success</h3>
+    <p style="color: #333; font-weight: 500;">Question saved successfully!</p>
+    <button onclick="document.getElementById('successModal').style.display='none'" style="
+      margin-top: 1rem;
+      padding: 10px 20px;
+      background-color: #6b1f9e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    ">OK</button>
+  </div>
+</div>
+<!-- Error Modal -->
+<div id="errorModal" class="modal" style="display: none; justify-content: center; align-items: center;">
+  <div style="
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  ">
+    <h3 style="color: red; margin-bottom: 1rem;"><i class="fas fa-exclamation-circle"></i> Error</h3>
+    <p id="errorModalText" style="color: #333; font-weight: 500;"></p>
+    <button onclick="document.getElementById('errorModal').style.display='none'" style="
+      margin-top: 1rem;
+      padding: 10px 20px;
+      background-color: #6b1f9e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    ">Close</button>
+  </div>
+</div>
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal" style="display: none;">
+  <div class="modal-content2" style="width: 400px; padding: 2rem; border-radius: 12px;  height:20rem;">
+     <span class="close settings-close" style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; translate:-34rem 11.5rem">&times;</span>
+    <h2 style="text-align: center;">Edit Quiz Settings</h2>
+<div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+  <label for="settingsQuizTitle" style="font-weight: bold;">Quiz Title:</label>
+  <input id="settingsQuizTitle" type="text" style="flex: 1; padding: 0.5rem; border-radius: 6px;">
+</div>
+
+    <p>Total Questions: <span id="totalQuestionsDisplay"></span></p>
+    <p>Estimated Time: <span id="totalTimeDisplay"></span></p>
+
+   <button id="resetQuizBtn" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 1rem; display: block; margin-left: auto; margin-right: auto; cursor: pointer;">Reset Quiz File</button>
+
+  </div>
+</div>
+
+<!-- Reset Confirmation Modal -->
+<div id="resetConfirmModal" class="modal" style="display: none;">
+  <div class="modal-content2" style="width: 350px; padding: 2rem; border-radius: 12px; text-align: center; height:10rem;">
+    <h3>Are you sure you want to reset?</h3>
+    <p>This will <strong style="color:red">delete all questions and settings</strong>.</p>
+    <button id="confirmResetBtn" style="background-color: red; color: white; border: none; padding: 10px 15px; border-radius: 8px;cursor: pointer;">Yes, Reset</button>
+    <button onclick="document.getElementById('resetConfirmModal').style.display='none'" style="margin-left: 1rem; padding: 10px 15px; border-radius: 8px;cursor: pointer;">Cancel</button>
+  </div>
+</div>
 
     <script src="../js/create.js"></script>
+    <script>
+
+
+</script>
 </body>
 </html>
