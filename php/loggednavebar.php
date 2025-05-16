@@ -272,7 +272,7 @@
                     </div>
                 </div>
                 <a href="../php/profile.php"><i class="fas fa-user-circle"></i> View Profile</a>
-                <a href="../php/Statistics.php"><i class="fa-solid fa-chart-line"></i> Statistics</a>
+                <a href="../php/statistics.php"><i class="fa-solid fa-chart-line"></i> Statistics</a>
                 <a href="?logout=true"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
