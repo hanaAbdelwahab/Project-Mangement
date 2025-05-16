@@ -1,3 +1,11 @@
+<?php
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: ../php/home.php"); // Redirect to home page
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

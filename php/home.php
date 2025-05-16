@@ -6,6 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/home.css"> <!-- External CSS -->
     <title>QuizzyVerse</title>
+    <style>
+.video, .video-v, .video-v3 {
+    width: 700px;
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.video video,
+.video-v video,
+.video-v3 video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* You can also try 'contain' or remove this */
+    display: block;
+    border: 8px solid #9061c2d7; /* Or corresponding border */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #6a1b9a; /* Match to your theme */
+    height:310px;
+}
+
+
+        </style>
 </head>
 <body>
     <div class="hero-section">
@@ -58,7 +84,7 @@
 
         <div class="video">
             <video autoplay muted >
-                <source src="../videos/Quizizz - Free Online Quizzes, Lessons, Activities and Homework.mp4" type="video/mp4">
+                <source src="../videos/Video1.mp4" type="video/mp4">
             </video>
         </div>
     </div>
@@ -66,7 +92,7 @@
     <div class="tutorial-content-v">
         <div class="line-v">
             <div class="circle-v"></div>
-            <img src="../images/Screenshot 2025-03-11 004744.png" alt="Tutorial Image" class="line-image">
+            <img src="../images/review2.png" alt="Tutorial Image" class="line-image" style="border:none;">
         </div>
         <div class="tutorial-text-v">
             <h1 style="color:#F266AB;font-size:5rem;">02</h1>
@@ -79,14 +105,14 @@
 
     <div class="video-v">
         <video autoplay muted>
-            <source src="../videos/Quizizz - Free Online Quizzes, Lessons, Activities and Homework.mp4" type="video/mp4">
+            <source src="../videos/video2.mp4" type="video/mp4">
         </video>
     </div>
     <!--step 3-->
     <div class="tutorial-content-v3">
         <div class="line-v3">
             <div class="circle-v3"></div>
-            <img src="../images/Screenshot 2025-03-11 004744.png" alt="Tutorial Image" class="line-image">
+            <img src="../images/review1.png" alt="Tutorial Image" class="line-image" style="border:none;">
         </div>
         <div class="line-h3">
             <div class="circle-h3"></div>
@@ -98,7 +124,7 @@
 
         <div class="video-v3">
             <video autoplay muted>
-                <source src="../videos/Quizizz - Free Online Quizzes, Lessons, Activities and Homework.mp4" type="video/mp4">
+                <source src="../videos/video3.mp4" type="video/mp4">
             </video>
         </div>
     </div>

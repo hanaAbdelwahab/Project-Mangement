@@ -12,6 +12,28 @@ body, html {
     align-items: center;
     height: 100vh;
 }
+select[name="role"] {
+    width: 5rem;
+    padding: 10px 14px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    appearance: none; /* Remove default arrow for custom styling if needed */
+}
+
+select[name="role"]:focus {
+    border-color: #6b1f9e;
+    box-shadow: 0 0 0 3px rgba(107, 31, 158, 0.15);
+}
+
+select[name="role"] option:disabled {
+    color: #aaa;
+}
 
 .login-box {
     display: flex;
