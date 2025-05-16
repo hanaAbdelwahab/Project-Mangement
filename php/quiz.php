@@ -498,9 +498,6 @@ let timerInterval = setInterval(updateTimer, 1000);
         // Push state again so back stays on page until user confirms
         window.history.pushState({ page: 1 }, "", "");
     });
-window.onbeforeunload = function () {
-    return "Are you sure you want to leave the quiz?";
-};
 
     function cancelExit() {
         document.getElementById("exitModal").style.display = "none";

@@ -25,6 +25,12 @@ select[name="role"] {
     transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     appearance: none; /* Remove default arrow for custom styling if needed */
 }
+.form-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
 
 select[name="role"]:focus {
     border-color: #6b1f9e;

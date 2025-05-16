@@ -10,6 +10,7 @@
         const publishClose = document.querySelector(".publish-close");
         const codeBox = document.getElementById("codeBox");
         const goToDashboardBtn = document.getElementById("goToDashboardBtn");
+        
         // Modals
         const modals = {
             welcome: document.getElementById("welcomeModal"),
@@ -51,8 +52,22 @@
         // Global variables
         window.singleAnswerMode = true;
         // Initial Setup
-        questionContainer.style.display = "none";
-        modals.welcome.style.display = "flex";
+// Initial Setup
+questionContainer.style.display = "none";
+
+// Only show welcome modal if no other modal is visible
+const isAnyModalOpen = Object.values(modals).some(modal => modal && modal.style.display === "flex");
+const errorModals = [
+    document.getElementById("errorModal"),
+    document.getElementById("dropErrorModal"),
+    document.getElementById("openEndedModal")
+];
+const isErrorModalOpen = errorModals.some(modal => modal && modal.style.display === "flex");
+
+if (!isAnyModalOpen && !isErrorModalOpen) {
+    modals.welcome.style.display = "flex";
+}
+
     if (publishBtn) {
         publishBtn.addEventListener("click", () => {
             const code = Math.floor(10000000 + Math.random() * 90000000).toString();
@@ -156,10 +171,10 @@
 
         // Answers (in a horizontal row)
     // === Check Question Type ===
-    const typeEl = Array.from(question.querySelectorAll("div")).find(div => 
-        div.textContent?.trim() === "Drop Down" || div.textContent?.trim() === "Multiple Choice"
-    );
-    const questionType = typeEl ? typeEl.textContent.trim() : "Multiple Choice";
+const typeEl = Array.from(question.querySelectorAll("div")).find(div =>
+    ["Drop Down", "Multiple Choice", "Open Ended"].includes(div.textContent?.trim())
+);
+const questionType = typeEl ? typeEl.textContent.trim() : "Multiple Choice";
 
 
 
@@ -183,7 +198,20 @@
         });
 
         questionBox.appendChild(dropdown);
-    } else {
+    }
+     else if (questionType === "Open Ended") {
+    const answerInput = document.createElement("textarea");
+    answerInput.placeholder = "write your answer...";
+    answerInput.style.width = "80%";
+    answerInput.style.minHeight = "100px";
+    answerInput.style.fontSize = "1rem";
+    answerInput.style.padding = "1rem";
+    answerInput.style.borderRadius = "8px";
+    answerInput.style.border = "1px solid #ccc";
+    answerInput.style.marginTop = "1rem";
+    answerInput.style.resize = "vertical";
+    questionBox.appendChild(answerInput);
+}  else {
         // Default rendering as row of answer divs
         const answerListWrapper = document.createElement("div");
         answerListWrapper.style.display = "flex";
@@ -594,6 +622,11 @@
         // Close the modal
         modals.second.style.display = "none";
         document.getElementById("successModal").style.display = "flex";
+            // ✅ Hide welcome modal if open
+    if (modals.welcome && modals.welcome.style.display === "flex") {
+        modals.welcome.style.display = "none";
+    }
+
         updateQuestionCount();
         }
         function addInitialAnswerFields() {
@@ -677,34 +710,50 @@
             }
             console.log(`Total questions: ${count}`);
         }
-        function saveQuestionsToLocalStorage() {
-        const questions = Array.from(document.querySelectorAll(".saved-question")).map(question => {
-            const title = question.querySelector("strong")?.textContent || "";
-            const answers = Array.from(question.querySelectorAll("ul > li")).map(li => ({
-                text: li.textContent.replace("✓ ", "").replace("✗ ", "").trim(),
-                isCorrect: li.style.color === "green"
-            }));
+function saveQuestionsToLocalStorage() {
+    const questions = Array.from(document.querySelectorAll(".saved-question")).map(question => {
+        const title = question.querySelector("strong")?.textContent || "";
 
-            const metaDivs = question.querySelectorAll("div");
-            const type = question.querySelector("div[style*='color: purple']:not(:has(select))")?.textContent.trim() || "Multiple Choice";
-            const markSelect = question.querySelector("select:nth-of-type(1)");
-            const timeSelect = question.querySelector("select:nth-of-type(2)");
+        // Detect question type from dataset or fallback
+        const type = question.dataset.type || (() => {
+            const typeDiv = question.querySelector("div");
+            if (typeDiv && typeDiv.textContent.trim() === "Open Ended") return "Open Ended";
+            return "Multiple Choice";
+        })();
 
-
-            const mark = markSelect?.value || "1 point";
-            const time = timeSelect?.value || "30 sec";
-
-            return { title, answers, type, mark, time };
-        });
-
-        localStorage.setItem("savedQuestions", JSON.stringify(questions));
+        // Handle answer extraction based on question type
+        let answers = [];
+        if (type === "Open Ended") {
+            const sampleAnswerEl = question.querySelector("ul li");
+            const sampleText = sampleAnswerEl?.textContent?.trim() || "No answer";
+            answers = [{ text: sampleText, isCorrect: true }];
+        } else {
+            answers = Array.from(question.querySelectorAll("ul > li")).map(li => {
+                const answerText = li.textContent.replace(/^✓\s*|^✗\s*/, "").trim();
+                const isCorrect = li.style.color === "green";
+                return { text: answerText, isCorrect };
+            });
         }
+
+        const markSelect = question.querySelector("select:nth-of-type(1)");
+        const timeSelect = question.querySelector("select:nth-of-type(2)");
+
+        const mark = markSelect?.value || "1 point";
+        const time = timeSelect?.value || "30 sec";
+
+        return { title, answers, type, mark, time };
+    });
+
+    localStorage.setItem("savedQuestions", JSON.stringify(questions));
+}
+
         function loadQuestionsFromLocalStorage() {
         const data = JSON.parse(localStorage.getItem("savedQuestions") || "[]");
 
         data.forEach((q, index) => {
             const questionItem = document.createElement("div");
-            questionItem.classList.add("saved-question");
+questionItem.classList.add("saved-question");
+questionItem.dataset.type = q.type || "Multiple Choice"; // ✅ Add this line
             questionItem.style.backgroundColor = "#f2f2f2";
             questionItem.style.border = "1px solid #ccc";
             questionItem.style.padding = "1rem";
@@ -804,32 +853,54 @@
             title.style.fontSize = "1.1rem";
             questionItem.appendChild(title);
 
-            const answerList = document.createElement("ul");
-            answerList.style.listStyleType = "none";
-            answerList.style.padding = "0";
-            answerList.style.display = "flex";
-            answerList.style.flexWrap = "wrap";
-            answerList.style.gap = "1rem";
-            answerList.style.marginTop = "0.5rem";
+           let answerList;
 
-            q.answers.forEach(answer => {
-                const li = document.createElement("li");
-                li.textContent = answer.text;
-                li.style.padding = "0.5rem 1rem";
-                li.style.borderRadius = "5px";
-                li.style.backgroundColor = "white";
-                li.style.fontWeight = "200";
-                li.style.border = "1px solid";
-                li.style.color = answer.isCorrect ? "green" : "red";
-                li.style.borderColor = answer.isCorrect ? "green" : "red";
+if (q.type === "Open Ended") {
+    answerList = document.createElement("div");
+    answerList.style.marginTop = "0.5rem";
 
-                const icon = document.createElement("span");
-                icon.textContent = answer.isCorrect ? "✓ " : "✗ ";
-                icon.style.marginRight = "5px";
+    const answerBox = document.createElement("div");
+    answerBox.textContent = q.answers[0]?.text || "No sample answer";
+    Object.assign(answerBox.style, {
+        backgroundColor: "white",
+        border: "2px solid gray",
+        borderRadius: "2rem",
+        padding: "0.3rem 1rem",
+        color: "black",
+        fontWeight: "normal",
+        fontSize: "1rem"
+    });
 
-                li.prepend(icon);
-                answerList.appendChild(li);
-            });
+    answerList.appendChild(answerBox);
+}  else {
+    answerList = document.createElement("ul");
+    answerList.style.listStyleType = "none";
+    answerList.style.padding = "0";
+    answerList.style.display = "flex";
+    answerList.style.flexWrap = "wrap";
+    answerList.style.gap = "1rem";
+    answerList.style.marginTop = "0.5rem";
+
+    q.answers.forEach(answer => {
+        const li = document.createElement("li");
+        li.textContent = answer.text;
+        li.style.padding = "0.5rem 1rem";
+        li.style.borderRadius = "5px";
+        li.style.backgroundColor = "white";
+        li.style.fontWeight = "200";
+        li.style.border = "1px solid";
+        li.style.color = answer.isCorrect ? "green" : "red";
+        li.style.borderColor = answer.isCorrect ? "green" : "red";
+
+        const icon = document.createElement("span");
+        icon.textContent = answer.isCorrect ? "✓ " : "✗ ";
+        icon.style.marginRight = "5px";
+
+        li.prepend(icon);
+        answerList.appendChild(li);
+    });
+}
+
 
             questionItem.appendChild(answerList);
             questionContainer.appendChild(questionItem);
@@ -838,12 +909,19 @@
 
         updateQuestionCount();
         }
-        function showErrorModal(message) {
+function showErrorModal(message) {
     const modal = document.getElementById("errorModal");
     const text = document.getElementById("errorModalText");
     text.textContent = message;
-    modal.style.display = "flex";
+
+    // ✅ Hide welcome modal if open
+    if (modals.welcome && modals.welcome.style.display === "flex") {
+        modals.welcome.style.display = "none";
     }
+
+    modal.style.display = "flex";
+}
+
 
         function validateMultipleChoiceInputs() {
             // Get the question input
@@ -1107,6 +1185,11 @@
 
         updateQuestionCount();
         document.getElementById("successModal").style.display = "flex";
+            // ✅ Hide welcome modal if open
+    if (modals.welcome && modals.welcome.style.display === "flex") {
+        modals.welcome.style.display = "none";
+    }
+
         }
         function insertEquation() {
             let inputField = document.querySelector(":focus");
@@ -1157,6 +1240,8 @@
         }
         // Event Listeners
         function setupEventListeners() {
+            document.getElementById("saveOpenEnded").addEventListener("click", validateAndSaveOpenEndedQuestion);
+
             // Title editing
             quizTitle.addEventListener("blur", saveTitle);
             quizTitle.addEventListener("keypress", e => {
@@ -1471,6 +1556,154 @@
         // Load saved questions
         loadQuestionsFromLocalStorage();
     }
+    function validateAndSaveOpenEndedQuestion() {
+    const questionTextEl = document.querySelector("#openEndedModal #questionInput");
+    const sampleAnswerEl = document.getElementById("sampleAnswer");
+
+    const questionText = questionTextEl?.innerText.trim();
+    const sampleAnswer = sampleAnswerEl?.value.trim();
+
+    if (!questionText || questionText === "Type your question here") {
+        showErrorModal("Please enter the open-ended question.");
+        return;
+    }
+
+    if (!sampleAnswer) {
+        showErrorModal("Please provide a sample answer.");
+        return;
+    }
+
+    const count = document.querySelectorAll(".saved-question").length + 1;
+
+    const questionItem = document.createElement("div");
+    questionItem.dataset.type = "Open Ended";
+    questionItem.classList.add("saved-question");
+    questionItem.style.backgroundColor = "#f2f2f2";
+    questionItem.style.border = "1px solid #ccc";
+    questionItem.style.padding = "1rem";
+    questionItem.style.margin = "1rem 2rem";
+    questionItem.style.borderRadius = "10px";
+    questionItem.style.width = "50rem";
+
+    // === Metadata Row ===
+    const metaRow = document.createElement("div");
+    metaRow.style.display = "flex";
+    metaRow.style.justifyContent = "space-between";
+    metaRow.style.marginBottom = "1rem";
+
+    const metaBoxStyle = {
+        backgroundColor: "white",
+        border: "2px solid gray",
+        borderRadius: "2rem",
+        padding: "0.3rem 1rem",
+        color: "purple",
+        fontWeight: "bold",
+        fontSize: "0.9rem"
+    };
+
+    const typeDiv = document.createElement("div");
+    typeDiv.textContent = "Open Ended";
+    Object.assign(typeDiv.style, metaBoxStyle);
+
+    const markWrapper = document.createElement("div");
+    Object.assign(markWrapper.style, metaBoxStyle);
+    const markLabel = document.createElement("span");
+    markLabel.textContent = "Mark: ";
+    const markSelect = document.createElement("select");
+    ["1 point", "2 points", "3 points"].forEach(optText => {
+        const option = document.createElement("option");
+        option.textContent = optText;
+        markSelect.appendChild(option);
+    });
+    markSelect.style.border = "none";
+    markSelect.style.background = "transparent";
+    markSelect.style.color = "purple";
+    markSelect.style.fontWeight = "bold";
+    markSelect.style.marginLeft = "0.5rem";
+    markWrapper.appendChild(markLabel);
+    markWrapper.appendChild(markSelect);
+
+    const timeWrapper = document.createElement("div");
+    Object.assign(timeWrapper.style, metaBoxStyle);
+    const timeLabel = document.createElement("span");
+    timeLabel.textContent = "Time: ";
+    const timeSelect = document.createElement("select");
+    ["30 sec", "1 min", "1.5 min", "2 mins"].forEach(optText => {
+        const option = document.createElement("option");
+        option.textContent = optText;
+        timeSelect.appendChild(option);
+    });
+    timeSelect.style.border = "none";
+    timeSelect.style.background = "transparent";
+    timeSelect.style.color = "purple";
+    timeSelect.style.fontWeight = "bold";
+    timeSelect.style.marginLeft = "0.5rem";
+    timeWrapper.appendChild(timeLabel);
+    timeWrapper.appendChild(timeSelect);
+
+    const deleteIcon = document.createElement("span");
+    deleteIcon.className = "delete-question";
+    deleteIcon.title = "Delete this question";
+    deleteIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    deleteIcon.style.cursor = "pointer";
+    deleteIcon.style.color = "#d11a2a";
+    deleteIcon.style.float = "right";
+    deleteIcon.style.fontSize = "1.2rem";
+    deleteIcon.addEventListener("click", () => {
+        questionItem.remove();
+        updateQuestionCount();
+        updateQuestionTitles();
+        saveQuestionsToLocalStorage();
+    });
+
+    metaRow.appendChild(typeDiv);
+    metaRow.appendChild(markWrapper);
+    metaRow.appendChild(timeWrapper);
+    metaRow.appendChild(deleteIcon);
+    questionItem.appendChild(metaRow);
+
+    const title = document.createElement("strong");
+    title.textContent = `Q${count}: ${questionText}`;
+    title.style.color = "black";
+    title.style.fontSize = "1.1rem";
+    questionItem.appendChild(title);
+
+    const answerList = document.createElement("ul");
+    answerList.style.listStyleType = "none";
+    answerList.style.padding = "0";
+    answerList.style.marginTop = "0.5rem";
+
+    const li = document.createElement("li");
+    li.textContent = sampleAnswer;
+    li.style.padding = "0.5rem 1rem";
+    li.style.borderRadius = "5px";
+    li.style.backgroundColor = "white";
+    li.style.border = "1px solid gray";
+    li.style.color = "black";
+
+    answerList.appendChild(li);
+    questionItem.appendChild(answerList);
+
+    const container = document.querySelector(".Questions-container");
+    container.appendChild(questionItem);
+    container.style.display = "block";
+
+    updateQuestionCount();
+    saveQuestionsToLocalStorage();
+
+    document.getElementById("openEndedModal").style.display = "none";
+    document.getElementById("successModal").style.display = "flex";
+        // ✅ Hide welcome modal if open
+    if (modals.welcome && modals.welcome.style.display === "flex") {
+        modals.welcome.style.display = "none";
+    }
+
+
+    // Reset
+    questionTextEl.innerText = "Type your question here...";
+    sampleAnswerEl.value = "";
+}
+
 
         // Initialize when DOM is fully loaded
         initQuizCreator();

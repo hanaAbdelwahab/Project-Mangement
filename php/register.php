@@ -4,39 +4,47 @@ include 'dp.php';
 
 // Sanitize and validate input
 $username = htmlspecialchars(trim($_POST['username']));
-$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+$passwordRaw = trim($_POST['password']);
 $role = $_POST['role'];
 
 // Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../html/create_account.php?msg=Invalid email format.");
+    $_SESSION['msg'] = "Invalid email format.";
+    header("Location: create_account.php");
     exit();
 }
 
 // Check if username or email already exists
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
-$stmt->bind_param("ss", $email, $username);
-$stmt->execute();
-$result = $stmt->get_result();
+$checkStmt = $conn->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
+$checkStmt->bind_param("ss", $email, $username);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
 
-if ($result->num_rows > 0) {
-    header("Location: ../html/create_account.php?msg=Username or email already exists.");
+if ($checkResult->num_rows > 0) {
+    $checkStmt->close();
+    $_SESSION['msg'] = "Username or email already exists.";
+    header("Location: create_account.php");
     exit();
 }
+$checkStmt->close();
 
-// Insert into database
-$stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $username, $email, $password, $role);
+// Hash the password securely
+$hashedPassword = password_hash($passwordRaw, PASSWORD_BCRYPT);
 
-if ($stmt->execute()) {
-    header("Location: ../php/create_account.php?msg=Account created successfully.");
+// Insert new user
+$insertStmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
+$insertStmt->bind_param("ssss", $username, $email, $hashedPassword, $role);
+
+if ($insertStmt->execute()) {
+    $_SESSION['msg'] = "Account created successfully.";
 } else {
-    header("Location: ../php/create_account.php?msg=Error: " . urlencode($stmt->error));
+    $_SESSION['msg'] = "Error creating account. Please try again.";
 }
 
-// Close resources
-$stmt->close();
+$insertStmt->close();
 $conn->close();
+
+header("Location: create_account.php");
 exit();
 ?>

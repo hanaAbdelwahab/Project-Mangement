@@ -68,6 +68,16 @@
     background-color: #f0f0f0;
     color: purple;
 }
+#errorModal {
+  position: fixed;
+  z-index: 2000;
+}
+
+#openEndedModal {
+  position: fixed;
+  z-index: 1000;
+}
+
     </style>
 </head>
 <body>
@@ -98,7 +108,7 @@
                 <div class="choices">
                     <button id="multipleChoiceBtn"><i class="fa-solid fa-square-check" style="color: purple;"></i> Multiple Choice</button>
                     <button id="DropBtn"><i class="fa-solid fa-square-caret-down" style="color: purple;"></i> Drop down</button>
-                    <button><i class="fa-solid fa-pen" style="color: purple;"></i> Open Ended</button>
+                    <button id="openendbtn"><i class="fa-solid fa-pen" style="color: purple;"></i> Open Ended</button>
                 </div>
             </div>
         </div>
@@ -353,10 +363,70 @@
   </div>
 </div>
 
+        <!-- Open Ended Modal -->
+<div id="openEndedModal" class="modal" style="display: none;">
+    <div class="modal-content2">
+        <span class="close openEnded-close">&times;</span>
+
+        <!-- Quiz Formatting -->
+      <div class="quiz-formatting">
+    <button data-command="bold"><b>B</b></button>
+    <button data-command="italic"><i>I</i></button>
+    <button data-command="underline"><u>U</u></button>
+    <button data-command="strikeThrough">S̶</button>
+    <button data-command="superscript">x¹</button>
+    <button data-command="subscript">x₁</button>
+    <button data-command="insertText" data-value="∑">∑</button>
+    <button data-command="insertText" data-value="f(x)">𝑓(𝑥)</button>
+</div>
+
+        <!-- Quiz Editor -->
+        <div id="quizEditor">
+            <div class="question-box">
+              <div id="questionInput" contenteditable="true" class="question-input" data-placeholder="Type your question here"></div>
+
+            </div>
+
+            <!-- Open-ended answer sample display (optional) -->
+            <div class="open-ended-answer">
+                
+                <textarea id="sampleAnswer" placeholder="Students will type their response here (max 1000 characters)"></textarea>
+            </div>
+
+            <!-- Quiz Options -->
+            <div class="button-container2">
+                <button id="saveOpenEnded" class="save-btn-D">Save Quiz</button>
+                <p id="openErrorMessage" style="color: red; display: none;">Please fill in the question and the answers!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="../js/create.js"></script>
-    <script>
+<script>
+    // Get the open ended button and modal
+    const openEndedBtn = document.getElementById("openendbtn");
+    const openEndedModal = document.getElementById("openEndedModal");
+    const closeOpenEndedBtn = document.querySelector(".openEnded-close");
 
+    // Show modal on button click
+    openEndedBtn.addEventListener("click", () => {
+        openEndedModal.style.display = "flex";
+    });
 
+    // Close modal on close button click
+    closeOpenEndedBtn.addEventListener("click", () => {
+        openEndedModal.style.display = "none";
+    });
+
+    // Optional: close modal when clicking outside
+    window.addEventListener("click", (event) => {
+        if (event.target === openEndedModal) {
+            openEndedModal.style.display = "none";
+        }
+    });
 </script>
+
+
 </body>
 </html>

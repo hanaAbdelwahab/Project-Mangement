@@ -458,6 +458,17 @@ if (!isset($_SESSION['username'])) {
         <h2>Hi <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
     </div>
 </footer>
+<!-- Exit Warning Modal -->
+<div id="exitModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 9999;">
+  <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; font-family: 'Montserrat', sans-serif; color: #4A0072; max-width: 350px;">
+    <img src="../images/warning-joypixels.gif" alt="Warning" style="width: 60px; height: 60px; margin-bottom: 15px;">
+    <p style="font-weight: bold; font-size: 16px;">Are you sure you want to leave the quiz?</p>
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+      <button onclick="cancelExit()" style="padding: 10px 20px; background-color: #6A0DAD; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+      <button onclick="confirmExit()" style="padding: 10px 20px; background-color: #ff4c4c; color: white; border: none; border-radius: 5px; cursor: pointer;">Yes</button>
+    </div>
+  </div>
+</div>
 
 <script src="../js/attend.js"></script>
 <script>
@@ -473,6 +484,30 @@ function updateTimer() {
 }
 
 let timerInterval = setInterval(updateTimer, 1000);
+</script>
+<script>
+    // Push dummy state to history so we can detect back
+    window.history.pushState({ page: 1 }, "", "");
+
+    window.addEventListener("popstate", function (event) {
+        // Show your custom exit modal
+        document.getElementById("exitModal").style.display = "flex";
+
+        // Push state again so back stays on page until user confirms
+        window.history.pushState({ page: 1 }, "", "");
+    });
+
+    function cancelExit() {
+        document.getElementById("exitModal").style.display = "none";
+    }
+
+function confirmExit() {
+    window.onbeforeunload = null; // Disable the native alert
+    window.location.href = '../php/attendQuiz.php'; // Navigate cleanly
+}
+
+
+
 </script>
 </body>
 </html>

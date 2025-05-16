@@ -71,9 +71,6 @@ if (!isset($_SESSION['username'])) {
     </div>
   </div>
 
-  <!-- Row 2 -->
-<!-- Row 2: Category Breakdown -->
-<!-- Row 2: Category Breakdown and Calendar/Stats Side by Side -->
 <div class="row mb-4">
   <!-- Left: Chart -->
   <div class="col-md-7">
