@@ -4,14 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const correctAnswers = {
         "q1": "q1-b", // cell
         "q2": "q2-c", // lungs
-        "q3": "q3-c", // sunlight
-        "q4": "q4-d", // Roots
         "q5": "Mitochondria",
         "q6": "heart",
         "q7": "q7-c", // whale
-        "q8": "Chlorophyll",
-        "q9": "oxygen",
-        "q10": "q10-c" // Herbivores
     }
     fullscreenBtn.addEventListener('click', function() {
         if (!document.fullscreenElement &&  // If not already in fullscreen

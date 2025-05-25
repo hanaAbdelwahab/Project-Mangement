@@ -246,7 +246,7 @@ if (!isset($_SESSION['username'])) {
     <form id="quiz-form">
         <!-- Question 1 -->
         <div class="question-container" id="q1">
-            <span class="question-number">1/10</span>
+            <span class="question-number">1/5</span>
             <div class="question-text">What is the basic unit of life?</div>
             <div class="mcq-container" data-group="q1">
                 <div class="mcq-option">
@@ -270,7 +270,7 @@ if (!isset($_SESSION['username'])) {
 
         <!-- Question 2 -->
         <div class="question-container" id="q2" style="display: none;">
-            <span class="question-number">2/10</span>
+            <span class="question-number">2/5</span>
             <div class="question-text">Which organ helps humans breathe?</div>
             <div class="mcq-container" data-group="q2">
                 <div class="mcq-option">
@@ -292,63 +292,18 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
 
-        <!-- Question 3 -->
-        <div class="question-container" id="q3" style="display: none;">
-            <span class="question-number">3/10</span>
-            <div class="question-text">What do plants need to make food?</div>
-            <div class="mcq-container" data-group="q3">
-                <div class="mcq-option">
-                    <input type="radio" id="q3-a" name="q3" value="a">
-                    <label for="q3-a">Moonlight</label>
-                </div>
-                <div class="mcq-option">
-                    <input type="radio" id="q3-b" name="q3" value="b">
-                    <label for="q3-b">Soil only</label>
-                </div>
-                <div class="mcq-option">
-                    <input type="radio" id="q3-c" name="q3" value="c">
-                    <label for="q3-c">Sunlight</label>
-                </div>
-                <div class="mcq-option">
-                    <input type="radio" id="q3-d" name="q3" value="d">
-                    <label for="q3-d">Wind</label>
-                </div>
-            </div>
-        </div>
-<!-- Question 4: MCQ -->
-<div class="question-container" id="q4" style="display: none;">
-    <span class="question-number">4/10</span>
-    <div class="question-text">Which part of the plant takes in water from the soil?</div>
-    <div class="mcq-container" data-group="q4">
-        <div class="mcq-option">
-            <input type="radio" id="q4-a" name="q4" value="a">
-            <label for="q4-a">Leaf</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q4-b" name="q4" value="b">
-            <label for="q4-b">Stem</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q4-c" name="q4" value="c">
-            <label for="q4-c">Flower</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q4-d" name="q4" value="d">
-            <label for="q4-d">Roots</label>
-        </div>
-    </div>
-</div>
+
 
 <!-- Question 5: Open-ended -->
 <div class="question-container" id="q5" style="display: none;">
-    <span class="question-number">5/10</span>
+    <span class="question-number">3/5</span>
     <div class="question-text">What is the powerhouse of the cell?</div>
     <input type="text" name="q5" placeholder="Your answer here" class="mcq-option" style="padding: 1rem; width: 80%; margin-top: 1rem; border: none;">
 </div>
 
 <!-- Question 6: Dropdown -->
 <div class="question-container" id="q6" style="display: none;">
-    <span class="question-number">6/10</span>
+    <span class="question-number">4/5</span>
     <div class="question-text">Which part of the body pumps blood?</div>
     <select name="q6" class="mcq-option" style="padding: 1rem; width: fit-content; font-size: 1rem; margin-top: 1rem;">
         <option value="">--Choose--</option>
@@ -361,7 +316,7 @@ if (!isset($_SESSION['username'])) {
 
 <!-- Question 7: MCQ -->
 <div class="question-container" id="q7" style="display: none;">
-    <span class="question-number">7/10</span>
+    <span class="question-number">5/5</span>
     <div class="question-text">Which of these is a mammal?</div>
     <div class="mcq-container" data-group="q7">
         <div class="mcq-option">
@@ -382,51 +337,6 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 </div>
-
-<!-- Question 8: Open-ended -->
-<div class="question-container" id="q8" style="display: none;">
-    <span class="question-number">8/10</span>
-    <div class="question-text">What is the green pigment in plants that helps in photosynthesis?</div>
-    <input type="text" name="q8" placeholder="Your answer here" class="mcq-option" style="padding: 1rem; width: 80%; margin-top: 1rem; border: none;">
-</div>
-
-<!-- Question 9: Dropdown -->
-<div class="question-container" id="q9" style="display: none;">
-    <span class="question-number">9/10</span>
-    <div class="question-text">What do animals need to survive?</div>
-    <select name="q9" class="mcq-option" style="padding: 1rem; width: fit-content; font-size: 1rem; margin-top: 1rem;">
-        <option value="">--Choose--</option>
-        <option value="sand">Sand</option>
-        <option value="music">Music</option>
-        <option value="oxygen">Oxygen</option>
-        <option value="plastic">Plastic</option>
-    </select>
-</div>
-
-<!-- Question 10: MCQ -->
-<div class="question-container" id="q10" style="display: none;">
-    <span class="question-number">10/10</span>
-    <div class="question-text">What do we call animals that eat only plants?</div>
-    <div class="mcq-container" data-group="q10">
-        <div class="mcq-option">
-            <input type="radio" id="q10-a" name="q10" value="a">
-            <label for="q10-a">Carnivores</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q10-b" name="q10" value="b">
-            <label for="q10-b">Omnivores</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q10-c" name="q10" value="c">
-            <label for="q10-c">Herbivores</label>
-        </div>
-        <div class="mcq-option">
-            <input type="radio" id="q10-d" name="q10" value="d">
-            <label for="q10-d">Insectivores</label>
-        </div>
-    </div>
-</div>
-
       
     </form>
 </div>
